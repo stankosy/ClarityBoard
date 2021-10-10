@@ -1,5 +1,5 @@
 import NavigationBar from "./components/NavigationBar";
-import CardsHolder from "./components/CardsHolder";
+import CardsList from "./components/CardsList";
 
 export default function App() {
   return (
@@ -16,16 +16,16 @@ export default function App() {
         <main>
           <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-4 gap-4">
             <div className="px-4 py-8 sm:px-0">
-              <CardsHolder
-                title="States"
-                description="Which states do you need to reach to achieve the objective?"
-              />
+              <CardsList />
             </div>
             <div className="px-4 py-8 sm:px-0">
-              <CardsHolder
-                title="Potential solutions"
-                description="How do you get to that state?"
-              />
+              <CardsList />
+            </div>
+            <div className="px-4 py-8 sm:px-0">
+              <CardsList />
+            </div>
+            <div className="px-4 py-8 sm:px-0">
+              <CardsList />
             </div>
           </div>
         </main>
