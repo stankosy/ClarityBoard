@@ -1,4 +1,5 @@
 import NavigationBar from "./components/NavigationBar";
+import CardsHolder from "./components/CardsHolder";
 
 export default function App() {
   return (
@@ -6,19 +7,26 @@ export default function App() {
       <NavigationBar />
       <div className="py-5">
         <header>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold leading-tight text-gray-900">
-              Objectives
+              Find a new Frontend Developer
             </h1>
           </div>
         </header>
         <main>
-          <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            {/* Replace with your content */}
+          <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-4 gap-4">
             <div className="px-4 py-8 sm:px-0">
-              <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
+              <CardsHolder
+                title="States"
+                description="Which states do you need to reach to achieve the objective?"
+              />
             </div>
-            {/* /End replace */}
+            <div className="px-4 py-8 sm:px-0">
+              <CardsHolder
+                title="Potential solutions"
+                description="How do you get to that state?"
+              />
+            </div>
           </div>
         </main>
       </div>
