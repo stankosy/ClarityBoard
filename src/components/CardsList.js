@@ -46,14 +46,14 @@ const positions = [
   },
 ];
 
-export default function CardsList() {
+export default function CardsList(props) {
   return (  
     <div className="bg-white shadow-xl rounded-md">
       <div className=" px-4 py-2 border-b border-gray-200 sm:px-6 ">
         <div className="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
           <div className="ml-4 mt-4">
             <h3 className="font-bold text-lg leading-6 font-medium text-gray-900">
-              States
+              {props.title}
             </h3>
             {/* <div>
               <svg
