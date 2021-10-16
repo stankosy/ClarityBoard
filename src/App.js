@@ -4,33 +4,33 @@ import DashboardTitle from "./components/DashboardTitle";
 import { useState } from "react/cjs/react.development";
 
 const INIT_DATA = [
-  {
-    id: 1,
-    subject: "Velit placeat sit ducimus non sed",
-    sender: "Gloria Roberston",
-    time: "1d ago",
-    datetime: "2021-01-27T16:35",
-    preview:
-      "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
-  },
-  {
-    id: 2,
-    subject: "Velit placeat sit ducimus non sed",
-    sender: "Gloria Roberston",
-    time: "1d ago",
-    datetime: "2021-01-27T16:35",
-    preview:
-      "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
-  },
-  {
-    id: 3,
-    subject: "Velit placeat sit ducimus non sed",
-    sender: "Gloria Roberston",
-    time: "1d ago",
-    datetime: "2021-01-27T16:35",
-    preview:
-      "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
-  },
+  // {
+  //   id: 1,
+  //   subject: "Velit placeat sit ducimus non sed",
+  //   sender: "Gloria Roberston",
+  //   time: "1d ago",
+  //   datetime: "2021-01-27T16:35",
+  //   preview:
+  //     "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
+  // },
+  // {
+  //   id: 2,
+  //   subject: "Velit placeat sit ducimus non sed",
+  //   sender: "Gloria Roberston",
+  //   time: "1d ago",
+  //   datetime: "2021-01-27T16:35",
+  //   preview:
+  //     "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
+  // },
+  // {
+  //   id: 3,
+  //   subject: "Velit placeat sit ducimus non sed",
+  //   sender: "Gloria Roberston",
+  //   time: "1d ago",
+  //   datetime: "2021-01-27T16:35",
+  //   preview:
+  //     "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
+  // },
 ];
 
 export default function App() {
@@ -38,7 +38,7 @@ export default function App() {
 
   const addNewState = (newState) => {
     setStatesList((oldStatesList) => {
-      return [{preview: newState}, ...oldStatesList];
+      return [...oldStatesList, { preview: newState }];
     });
   };
 
@@ -47,13 +47,17 @@ export default function App() {
       <NavigationBar />
       <div className="py-4">
         <header>
-          <DashboardTitle title="Find new Frontend Developer" />
+          <DashboardTitle title="Hire a new Frontend Developer" />
         </header>
 
         <main>
           <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
             <div className="px-4 py-5 sm:px-0">
-              <CardsList title="State" statesList={statesList} onAddStateItem={addNewState}/>
+              <CardsList
+                title="State"
+                statesList={statesList}
+                onAddStateItem={addNewState}
+              />
             </div>
             <div className="px-4 py-5 sm:px-0">
               <CardsList title="Potential Solution" statesList={[]} />
