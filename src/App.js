@@ -14,7 +14,7 @@ const INIT_DATA = [
       "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
   },
   {
-    id: 1,
+    id: 2,
     subject: "Velit placeat sit ducimus non sed",
     sender: "Gloria Roberston",
     time: "1d ago",
@@ -23,7 +23,7 @@ const INIT_DATA = [
       "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
   },
   {
-    id: 1,
+    id: 3,
     subject: "Velit placeat sit ducimus non sed",
     sender: "Gloria Roberston",
     time: "1d ago",
@@ -34,8 +34,13 @@ const INIT_DATA = [
 ];
 
 export default function App() {
+  const [statesList, setStatesList] = useState(INIT_DATA);
 
-  const [statesList, setStatesList] = useState(INIT_DATA)
+  const addNewState = (newState) => {
+    setStatesList((oldStatesList) => {
+      return [{preview: newState}, ...oldStatesList];
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -48,13 +53,13 @@ export default function App() {
         <main>
           <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
             <div className="px-4 py-5 sm:px-0">
-              <CardsList title="State" statesList={statesList}/>
+              <CardsList title="State" statesList={statesList} onAddStateItem={addNewState}/>
             </div>
             <div className="px-4 py-5 sm:px-0">
-              <CardsList title="Potential Solution" statesList={[]}/>
+              <CardsList title="Potential Solution" statesList={[]} />
             </div>
             <div className="px-4 py-5 sm:px-0">
-              <CardsList title="Actionable" statesList={[]}/>
+              <CardsList title="Actionable" statesList={[]} />
             </div>
           </div>
         </main>

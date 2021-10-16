@@ -1,9 +1,11 @@
-import { useState } from "react";
 import NewCard from "./NewCard";
 import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 
-
 export default function CardsList(props) {
+  const addNewState = (newState) => {
+    props.onAddStateItem(newState);
+    return newState;
+  };
 
   return (
     <div className="bg-white shadow-xl rounded-md">
@@ -43,7 +45,7 @@ export default function CardsList(props) {
             </li>
           ))}
           <li className="relative py-2 px-4 hover:bg-gray-50 focus-within:ring-inset focus-within:ring-indigo-600">
-            <NewCard listName={props.title} />
+            <NewCard listName={props.title} onAddStateItem={addNewState} />
           </li>
         </ul>
       </div>
