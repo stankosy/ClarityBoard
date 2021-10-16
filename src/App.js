@@ -13,13 +13,13 @@ export default function App() {
         <main>
           <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
             <div className="px-4 py-5 sm:px-0">
-              <CardsList title="States" />
+              <CardsList title="State" />
             </div>
             <div className="px-4 py-5 sm:px-0">
-              <CardsList title="Potential Solutions" />
+              <CardsList title="Potential Solution" />
             </div>
             <div className="px-4 py-5 sm:px-0">
-              <CardsList title="Actionables" />
+              <CardsList title="Actionable" />
             </div>
           </div>
         </main>

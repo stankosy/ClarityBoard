@@ -1,5 +1,7 @@
 import { useState } from "react";
 import NewCard from "./NewCard";
+import { PlusSmIcon as PlusSmIconSolid } from '@heroicons/react/solid'
+
 
 const messages = [
   {
@@ -44,16 +46,16 @@ export default function CardsList(props) {
         <div className="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
           <div className="ml-4 mt-4">
             <h3 className="font-bold text-lg leading-6 font-medium text-gray-900">
-              {props.title}
+              {props.title + "s"}
             </h3>
           </div>
           <div className="ml-4 mt-4 flex-shrink-0">
             <button
-              onClick={updateTitle}
               type="button"
-              className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={updateTitle}
+              className="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              + Add
+              <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -94,7 +96,7 @@ export default function CardsList(props) {
           ))}
         </ul>
         <div className="px-4 py-2">
-          <NewCard />
+          <NewCard listName={props.title}/>
         </div>
       </div>
     </div>
