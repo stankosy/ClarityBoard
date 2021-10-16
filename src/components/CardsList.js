@@ -52,7 +52,7 @@ export default function CardsList(props) {
             <button
               type="button"
               onClick={updateTitle}
-              className="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="inline-flex items-center p-1 border border-transparent rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
             </button>
@@ -73,17 +73,7 @@ export default function CardsList(props) {
                 </p>
               </div>
               <div className="flex justify-between space-x-3">
-                <div className="min-w-0 flex-1">
-                  {/* <a href="#" className="block focus:outline-none">
-                    <span className="absolute inset-0" aria-hidden="true" />
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      {message.sender}
-                    </p>
-                    <p className="text-sm text-gray-500 truncate">
-                      {message.subject}
-                    </p>
-                  </a> */}
-                </div>
+                <div className="min-w-0 flex-1"></div>
                 <time
                   dateTime={message.datetime}
                   className="flex-shrink-0 whitespace-nowrap text-sm text-gray-400"
