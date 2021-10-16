@@ -16,10 +16,6 @@ export default function NewCard(props) {
     setStateContent("");
   };
 
-  const deactivateInput = () => {
-    props.onDeactivateCardInput();
-  };
-
   if (props.isVisible === false) {
     return <></>;
   }
@@ -29,9 +25,8 @@ export default function NewCard(props) {
       <form onSubmit={saveFormContent}>
         <div>
           <textarea
-            id="about"
-            name="about"
-            rows={3}
+            name="item-content"
+            rows={2 }
             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md"
             placeholder={
               "Add a new " +

@@ -4,15 +4,15 @@ import DashboardTitle from "./components/DashboardTitle";
 import { useState } from "react/cjs/react.development";
 
 const INIT_DATA = [
-  // {
-  //   id: 1,
-  //   subject: "Velit placeat sit ducimus non sed",
-  //   sender: "Gloria Roberston",
-  //   time: "1d ago",
-  //   datetime: "2021-01-27T16:35",
-  //   preview:
-  //     "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
-  // },
+  {
+    id: 1,
+    subject: "Velit placeat sit ducimus non sed",
+    sender: "Gloria Roberston",
+    time: "1d ago",
+    datetime: "2021-01-27T16:35",
+    preview:
+      "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
+  },
   // {
   //   id: 2,
   //   subject: "Velit placeat sit ducimus non sed",
@@ -57,6 +57,7 @@ export default function App() {
                 title="State"
                 statesList={statesList}
                 onAddStateItem={addNewState}
+                cardAddOn="checkbox"
               />
             </div>
             <div className="px-4 py-5 sm:px-0">

@@ -16,6 +16,25 @@ export default function CardsList(props) {
     return newState;
   };
 
+  let cardAddOnItem = {};
+  if (props.cardAddOn === "checkbox") {
+    cardAddOnItem = (
+      <div className="flex items-center h-6 mr-4">
+        <input
+          id="comments"
+          aria-describedby="comments-description"
+          name="comments"
+          type="checkbox"
+          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+        />
+      </div>
+    );
+  } else if (props.cardAddOn === "progressBar") {
+    cardAddOnItem = <></>;
+  } else {
+    cardAddOnItem = <></>;
+  }
+
   return (
     <div className="bg-white shadow-xl rounded-md">
       <div className=" px-4 py-2 border-b border-gray-200 sm:px-6 ">
@@ -42,8 +61,9 @@ export default function CardsList(props) {
           {props.statesList.map((stateItem) => (
             <li
               key={stateItem.id}
-              className="relative py-2 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+              className="relative flex items-start py-2 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
             >
+              {cardAddOnItem}
               <div>
                 <p className="line-clamp-2 text-sm text-gray-600">
                   {stateItem.preview}
@@ -54,7 +74,12 @@ export default function CardsList(props) {
               </div>
             </li>
           ))}
-            <NewCard isVisible={cardInputVisible} listName={props.title} onAddStateItem={addNewState} onDeactivateCardInput={deactivateCardInput}/>
+          <NewCard
+            isVisible={cardInputVisible}
+            listName={props.title}
+            onAddStateItem={addNewState}
+            onDeactivateCardInput={deactivateCardInput}
+          />
         </ul>
       </div>
     </div>
