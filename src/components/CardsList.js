@@ -1,7 +1,6 @@
 import { useState } from "react";
 import NewCard from "./NewCard";
-import { PlusSmIcon as PlusSmIconSolid } from '@heroicons/react/solid'
-
+import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 
 const messages = [
   {
@@ -43,7 +42,7 @@ export default function CardsList(props) {
   return (
     <div className="bg-white shadow-xl rounded-md">
       <div className=" px-4 py-2 border-b border-gray-200 sm:px-6 ">
-        <div className="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
+        <div className="-ml-6 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
           <div className="ml-4 mt-4">
             <h3 className="font-bold text-lg leading-6 font-medium text-gray-900">
               {props.title + "s"}
@@ -94,10 +93,10 @@ export default function CardsList(props) {
               </div>
             </li>
           ))}
+          <li className="relative bg-white py-2 px-4 hover:bg-gray-50 focus-within:ring-inset focus-within:ring-indigo-600">
+            <NewCard listName={props.title} />
+          </li>
         </ul>
-        <div className="px-4 py-2">
-          <NewCard listName={props.title}/>
-        </div>
       </div>
     </div>
   );

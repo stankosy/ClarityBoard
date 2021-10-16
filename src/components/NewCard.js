@@ -11,7 +11,7 @@ export default function NewCard(props) {
           name="about"
           rows={3}
           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
-          placeholder={"Add a new " + props.listName + "\n\"Ctrl + Enter\" to save"}
+          placeholder={"Add a new " + props.listName.toLowerCase() + "\n\"Ctrl + Enter\" to save"}
           defaultValue={""}
           onChange={titleChangeHandler}
         />
