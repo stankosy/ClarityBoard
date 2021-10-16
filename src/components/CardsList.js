@@ -1,7 +1,16 @@
 import NewCard from "./NewCard";
 import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
+import { useState } from "react/cjs/react.development";
 
 export default function CardsList(props) {
+  const [cardInputVisible, setCardInputVisible] = useState(false);
+
+  const activateCardInput = () => {
+    setCardInputVisible(true);
+  };
+  const deactivateCardInput = () => {
+    setCardInputVisible(false);
+  };
   const addNewState = (newState) => {
     props.onAddStateItem(newState);
     return newState;
@@ -20,6 +29,7 @@ export default function CardsList(props) {
             <button
               type="button"
               className="inline-flex items-center p-1 border border-transparent rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={activateCardInput}
             >
               <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
             </button>
@@ -44,9 +54,7 @@ export default function CardsList(props) {
               </div>
             </li>
           ))}
-          <li className="relative py-2 px-4 hover:bg-gray-50 focus-within:ring-inset focus-within:ring-indigo-600">
-            <NewCard listName={props.title} onAddStateItem={addNewState} />
-          </li>
+            <NewCard isVisible={cardInputVisible} listName={props.title} onAddStateItem={addNewState} onDeactivateCardInput={deactivateCardInput}/>
         </ul>
       </div>
     </div>
