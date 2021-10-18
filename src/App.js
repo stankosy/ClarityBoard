@@ -1,44 +1,46 @@
 import NavigationBar from "./components/NavigationBar";
-import CardsList from "./components/CardsList";
+import ItemsList from "./components/ItemsList";
 import DashboardTitle from "./components/DashboardTitle";
 import { useState } from "react/cjs/react.development";
 
-const INIT_DATA = [
-  {
-    id: 1,
-    subject: "Velit placeat sit ducimus non sed",
-    sender: "Gloria Roberston",
-    time: "1d ago",
-    datetime: "2021-01-27T16:35",
-    preview:
-      "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
+const INIT_OBJECTIVE = {
+  key: 1,
+  title: "Hire a new Frontend Developer",
+  selectedItemIds: {
+    keyResults: 1,
+    solutions: 1,
+    tasks: 2,
   },
-  // {
-  //   id: 2,
-  //   subject: "Velit placeat sit ducimus non sed",
-  //   sender: "Gloria Roberston",
-  //   time: "1d ago",
-  //   datetime: "2021-01-27T16:35",
-  //   preview:
-  //     "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
-  // },
-  // {
-  //   id: 3,
-  //   subject: "Velit placeat sit ducimus non sed",
-  //   sender: "Gloria Roberston",
-  //   time: "1d ago",
-  //   datetime: "2021-01-27T16:35",
-  //   preview:
-  //     "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
-  // },
-];
+  keyResults: [
+    {
+      key: 1,
+      description:
+        "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
+      solutions: [
+        {
+          key: 1,
+          description: "this is a new text",
+          isSelected: true,
+          tasks: [
+            { key: 1, description: "Blabla" },
+            { key: 2, description: "Blabla" },
+            { key: 3, description: "Blabla" },
+          ],
+        },
+        { key: 2, description: "this is a new text" },
+      ],
+    },
+  ],
+};
 
 export default function App() {
-  const [statesList, setStatesList] = useState(INIT_DATA);
+  const [keyResultsList, setKeyResultsList] = useState(
+    INIT_OBJECTIVE["keyResults"]
+  );
 
-  const addNewState = (newState) => {
-    setStatesList((oldStatesList) => {
-      return [...oldStatesList, { preview: newState }];
+  const addNewListItem = (newListItem) => {
+    setKeyResultsList((oldKeyResultsList) => {
+      return [...oldKeyResultsList, { description: newListItem }];
     });
   };
 
@@ -47,24 +49,32 @@ export default function App() {
       <NavigationBar />
       <div className="py-4">
         <header>
-          <DashboardTitle title="Hire a new Frontend Developer" />
+          <DashboardTitle title={INIT_OBJECTIVE["title"]} />
         </header>
 
         <main>
           <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
             <div className="px-4 py-5 sm:px-0">
-              <CardsList
-                title="State"
-                statesList={statesList}
-                onAddStateItem={addNewState}
-                cardAddOn="checkbox"
+              <ItemsList
+                title="Key Result"
+                itemsList={keyResultsList}
+                onAddListItem={addNewListItem}
+                cardAddOn=""
               />
             </div>
             <div className="px-4 py-5 sm:px-0">
-              <CardsList title="Potential Solution" statesList={[]} />
+              <ItemsList
+                title="Potential Solution"
+                itemsList={keyResultsList[0]["solutions"]}
+                cardAddOn=""
+              />
             </div>
             <div className="px-4 py-5 sm:px-0">
-              <CardsList title="Actionable" statesList={[]} />
+              <ItemsList
+                title="Task"
+                itemsList={keyResultsList[0]["solutions"][0]["tasks"]}
+                cardAddOn="checkbox"
+              />
             </div>
           </div>
         </main>

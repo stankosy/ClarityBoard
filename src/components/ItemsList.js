@@ -1,8 +1,8 @@
-import NewCard from "./NewCard";
+import NewListItem from "./NewListItem";
 import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 import { useState } from "react/cjs/react.development";
 
-export default function CardsList(props) {
+export default function ItemsList(props) {
   const [cardInputVisible, setCardInputVisible] = useState(false);
 
   const activateCardInput = () => {
@@ -11,9 +11,9 @@ export default function CardsList(props) {
   const deactivateCardInput = () => {
     setCardInputVisible(false);
   };
-  const addNewState = (newState) => {
-    props.onAddStateItem(newState);
-    return newState;
+  const addNewListItem = (newListItem) => {
+    props.onAddListItem(newListItem);
+    return newListItem;
   };
 
   let cardAddOnItem = {};
@@ -58,15 +58,15 @@ export default function CardsList(props) {
 
       <div className="shadow overflow-hidden ">
         <ul role="list" className="divide-y divide-gray-200">
-          {props.statesList.map((stateItem) => (
+          {props.itemsList.map((listItem) => (
             <li
-              key={stateItem.id}
+              key={listItem.key}
               className="relative flex items-start py-2 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
             >
               {cardAddOnItem}
               <div>
                 <p className="line-clamp-2 text-sm text-gray-600">
-                  {stateItem.preview}
+                  {listItem.description}
                 </p>
               </div>
               <div className="flex justify-between space-x-3">
@@ -74,10 +74,10 @@ export default function CardsList(props) {
               </div>
             </li>
           ))}
-          <NewCard
+          <NewListItem
             isVisible={cardInputVisible}
             listName={props.title}
-            onAddStateItem={addNewState}
+            onAddListItem={addNewListItem}
             onDeactivateCardInput={deactivateCardInput}
           />
         </ul>

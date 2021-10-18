@@ -1,19 +1,19 @@
 import { useState } from "react/cjs/react.development";
 
-export default function NewCard(props) {
-  const [stateContent, setStateContent] = useState("");
+export default function NewListItem(props) {
+  const [listItemContent, setListItemContent] = useState("");
 
   const titleChangeHandler = (event) => {
-    setStateContent(event.target.value);
+    setListItemContent(event.target.value);
   };
 
   const saveFormContent = (event) => {
     event.preventDefault();
-    if (stateContent.trim() === "") {
+    if (listItemContent.trim() === "") {
       return;
     }
-    props.onAddStateItem(stateContent);
-    setStateContent("");
+    props.onAddListItem(listItemContent);
+    setListItemContent("");
   };
 
   if (props.isVisible === false) {
@@ -26,15 +26,15 @@ export default function NewCard(props) {
         <div>
           <textarea
             name="item-content"
-            rows={2 }
+            rows={2}
             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md"
             placeholder={
               "Add a new " +
               props.listName.toLowerCase() +
               '\n"Ctrl + Enter" to save'
             }
-            // defaultValue={stateContent}
-            value={stateContent}
+            // defaultValue={listItemContent}
+            value={listItemContent}
             onChange={titleChangeHandler}
           />
         </div>
