@@ -19,6 +19,8 @@ export default function App() {
     localStorageConditionsList
   );
 
+  const [selectedCondition, setSelectedCondition] = useState(null);
+
   const addNewListItem = (newListItem, itemType) => {
     saveLocalStorageList(itemType, [
       ...localStorageConditionsList,
@@ -45,7 +47,11 @@ export default function App() {
           <ListsContext.Provider
             value={{
               conditionsList: conditionsList,
-              onAddNewListItem: addNewListItem,
+              addNewListItem: addNewListItem,
+              selectCondition: (id) => {
+                setSelectedCondition(id);
+              },
+              selectedCondition: selectedCondition,
             }}
           >
             <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
