@@ -5,13 +5,13 @@ import { useState } from "react/cjs/react.development";
 
 const CONDITIONS_LIST = [
   {
-    key: 1,
-    description:
+    id: 1,
+    content:
       "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
   },
   {
-    key: 2,
-    description:
+    id: 2,
+    content:
       "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
   },
 ];
@@ -21,7 +21,7 @@ export default function App() {
 
   const addNewListItem = (newListItem) => {
     setConditionsList((oldConditionsList) => {
-      return [...oldConditionsList, { description: newListItem }];
+      return [...oldConditionsList, { id: Date.now(), content: newListItem }];
     });
   };
 

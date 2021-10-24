@@ -65,7 +65,7 @@ export default function ItemsList(props) {
                 {cardAddOnItem}
                 <div>
                   <p className="line-clamp-2 text-sm text-gray-600">
-                    {listItem.description}
+                    {listItem.content}
                   </p>
                 </div>
                 <div className="flex justify-between space-x-3">
