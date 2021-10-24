@@ -2,46 +2,32 @@ import NavigationBar from "./components/NavigationBar";
 import ItemsList from "./components/ItemsList";
 import DashboardTitle from "./components/DashboardTitle";
 import { useState } from "react/cjs/react.development";
+import ListsContext from "./context/lists-context";
 
-const INIT_OBJECTIVE = {
-  key: 1,
-  title: "Hire a new Frontend Developer",
-  selectedItemIds: {
-    keyResults: 1,
-    solutions: 1,
-    tasks: 2,
+const CONDITIONS_LIST = [
+  {
+    id: 1,
+    content:
+      "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
   },
-  keyResults: [
-    {
-      key: 1,
-      description:
-        "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
-      solutions: [
-        {
-          key: 1,
-          description: "this is a new text",
-          isSelected: true,
-          tasks: [
-            { key: 1, description: "Blabla" },
-            { key: 2, description: "Blabla" },
-            { key: 3, description: "Blabla" },
-          ],
-        },
-        { key: 2, description: "this is a new text" },
-      ],
-    },
-  ],
-};
+  {
+    id: 2,
+    content:
+      "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
+  },
+];
 
 export default function App() {
-  const [keyResultsList, setKeyResultsList] = useState(
-    INIT_OBJECTIVE["keyResults"]
-  );
+  const [conditionsList, setConditionsList] = useState(CONDITIONS_LIST);
 
-  const addNewListItem = (newListItem) => {
-    setKeyResultsList((oldKeyResultsList) => {
-      return [...oldKeyResultsList, { description: newListItem }];
-    });
+  const addNewListItem = (newListItem, itemType) => {
+    const addItemFunction = (oldItemsList) => {
+      return [...oldItemsList, newListItem];
+    }
+    if (itemType === "condition") {
+      setConditionsList(addItemFunction);
+      // add new conditions to local storage
+    }
   };
 
   return (
@@ -49,34 +35,25 @@ export default function App() {
       <NavigationBar />
       <div className="py-4">
         <header>
-          <DashboardTitle title={INIT_OBJECTIVE["title"]} />
+          <DashboardTitle title="Hire a new Frontend Developer" />
         </header>
 
         <main>
-          <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
-            <div className="px-4 py-5 sm:px-0">
+          <ListsContext.Provider
+            value={{
+              conditionsList: conditionsList,
+              onAddNewListItem: addNewListItem,
+            }}
+          >
+            <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
               <ItemsList
-                title="Key Result"
-                itemsList={keyResultsList}
-                onAddListItem={addNewListItem}
-                cardAddOn=""
+                title="Conditions"
+                itemsList={conditionsList}
               />
+              <ItemsList title="Solutions" itemsList={[]} cardAddOn="" />
+              <ItemsList title="Tasks" itemsList={[]} cardAddOn="checkbox" />
             </div>
-            <div className="px-4 py-5 sm:px-0">
-              <ItemsList
-                title="Potential Solution"
-                itemsList={keyResultsList[0]["solutions"]}
-                cardAddOn=""
-              />
-            </div>
-            <div className="px-4 py-5 sm:px-0">
-              <ItemsList
-                title="Task"
-                itemsList={keyResultsList[0]["solutions"][0]["tasks"]}
-                cardAddOn="checkbox"
-              />
-            </div>
-          </div>
+          </ListsContext.Provider>
         </main>
       </div>
     </div>

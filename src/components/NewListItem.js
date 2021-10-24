@@ -1,24 +1,27 @@
-import { useState } from "react/cjs/react.development";
+import { useRef, useContext } from "react/cjs/react.development";
+import ListsContext from "../context/lists-context";
 
 export default function NewListItem(props) {
-  const [listItemContent, setListItemContent] = useState("");
-
-  const titleChangeHandler = (event) => {
-    setListItemContent(event.target.value);
-  };
+  const listItemContent = useRef(null);
+  const listsContext = useContext(ListsContext);
 
   const saveFormContent = (event) => {
     event.preventDefault();
-    if (listItemContent.trim() === "") {
+    if (listItemContent.current.value.trim() === "") {
       return;
     }
-    props.onAddListItem(listItemContent);
-    setListItemContent("");
-  };
 
-  if (props.isVisible === false) {
-    return <></>;
-  }
+    listsContext.onAddNewListItem(
+      {
+        id: Date.now(),
+        // parent: props.parent,
+        content: listItemContent.current.value,
+      },
+      "condition"
+    );
+
+    listItemContent.current.value = "";
+  };
 
   return (
     <li className="relative py-2 px-4 hover:bg-gray-50 focus-within:ring-inset focus-within:ring-indigo-600">
@@ -28,14 +31,9 @@ export default function NewListItem(props) {
             name="item-content"
             rows={2}
             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md"
-            placeholder={
-              "Add a new " +
-              props.listName.toLowerCase() +
-              '\n"Ctrl + Enter" to save'
-            }
-            // defaultValue={listItemContent}
-            value={listItemContent}
-            onChange={titleChangeHandler}
+            placeholder={'Add a new, "Ctrl + Enter" to save'}
+            ref={listItemContent}
+            required
           />
         </div>
         <div className="flex justify-end py-2">
