@@ -16,7 +16,7 @@ const filterItemsByParent = (itemsList, parentIdsList) => {
   if (!parentIdsList) {
     return [];
   } else {
-    parentIdsList = [parentIdsList]
+    parentIdsList = [parentIdsList];
   }
   return itemsList.filter((i) => parentIdsList.includes(i.parentId));
 };
@@ -31,6 +31,7 @@ export default function App() {
   const [solutionsList, setSolutionsList] = useState(localStorageSolutionsList);
 
   const [selectedCondition, setSelectedCondition] = useState(null);
+  const [selectedSolution, setSelectedSolution] = useState(null);
 
   const addNewListItem = (newListItem, itemType) => {
     const addItemFunction = (oldItemsList) => {
@@ -67,7 +68,11 @@ export default function App() {
               selectCondition: (id) => {
                 setSelectedCondition(id);
               },
+              selectSolution: (id) => {
+                setSelectedSolution(id);
+              },
               selectedCondition: selectedCondition,
+              selectedSolution: selectedSolution,
             }}
           >
             <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
@@ -75,7 +80,7 @@ export default function App() {
               <ItemsList
                 listType="solution"
                 itemsList={
-                  filterItemsByParent(solutionsList, selectedCondition) || []
+                  filterItemsByParent(solutionsList, selectedCondition)
                 }
               />
               <ItemsList listType="task" itemsList={[]} cardAddOn="checkbox" />

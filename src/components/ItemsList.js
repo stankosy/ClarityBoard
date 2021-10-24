@@ -31,6 +31,14 @@ export default function ItemsList(props) {
     cardAddOnItem = <></>;
   }
 
+  const setSelectedItem = (listItem) => {
+    if (props.listType == "condition") {
+      listsContext.selectCondition(listItem.id);
+    } else if (props.listType == "solution") {
+      listsContext.selectSolution(listItem.id);
+    }
+  };
+
   return (
     <div className="px-4 py-5 sm:px-0">
       <div className="bg-white shadow-xl rounded-md">
@@ -59,12 +67,15 @@ export default function ItemsList(props) {
               <li
                 key={listItem.id}
                 className={`relative flex items-start py-2 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ${
-                  listItem.id == listsContext.selectedCondition
+                  listItem.id ==
+                  (props.listType == "condition"
+                    ? listsContext.selectedCondition
+                    : listsContext.selectedSolution)
                     ? " bg-gray-100"
                     : ""
                 }`}
                 onClick={() => {
-                  listsContext.selectCondition(listItem.id);
+                  setSelectedItem(listItem);
                 }}
               >
                 {cardAddOnItem}
