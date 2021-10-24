@@ -12,6 +12,15 @@ const saveLocalStorageList = (listType, newList) => {
   localStorage.setItem(listType, JSON.stringify(newList));
 };
 
+const filterItemsByParent = (itemsList, parentIdsList) => {
+  if (!parentIdsList) {
+    return [];
+  } else {
+    parentIdsList = [parentIdsList]
+  }
+  return itemsList.filter((i) => parentIdsList.includes(i.parentId));
+};
+
 export default function App() {
   let localStorageConditionsList = getLocalStorageList("condition");
   let localStorageSolutionsList = getLocalStorageList("solution");
@@ -63,7 +72,12 @@ export default function App() {
           >
             <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
               <ItemsList listType="condition" itemsList={conditionsList} />
-              <ItemsList listType="solution" itemsList={solutionsList} />
+              <ItemsList
+                listType="solution"
+                itemsList={
+                  filterItemsByParent(solutionsList, selectedCondition) || []
+                }
+              />
               <ItemsList listType="task" itemsList={[]} cardAddOn="checkbox" />
             </div>
           </ListsContext.Provider>

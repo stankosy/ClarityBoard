@@ -37,8 +37,8 @@ export default function ItemsList(props) {
         <div className=" px-4 py-2 border-b border-gray-200 sm:px-6 ">
           <div className="-ml-6 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
             <div className="ml-4 mt-4">
-              <h3 className="font-bold text-lg leading-6 font-medium text-gray-900">
-                {props.listType}
+              <h3 className="capitalize font-bold text-lg leading-6 font-medium text-gray-900">
+                {props.listType + "s"}
               </h3>
             </div>
             <div className="ml-4 mt-4 flex-shrink-0">
