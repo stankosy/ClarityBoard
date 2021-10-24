@@ -17,7 +17,7 @@ export default function NewListItem(props) {
         // parent: props.parent,
         content: listItemContent.current.value,
       },
-      "condition"
+      props.listType
     );
 
     listItemContent.current.value = "";

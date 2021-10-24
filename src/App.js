@@ -14,24 +14,31 @@ const saveLocalStorageList = (listType, newList) => {
 
 export default function App() {
   let localStorageConditionsList = getLocalStorageList("condition");
+  let localStorageSolutionsList = getLocalStorageList("solution");
 
   const [conditionsList, setConditionsList] = useState(
     localStorageConditionsList
   );
+  const [solutionsList, setSolutionsList] = useState(localStorageSolutionsList);
 
   const [selectedCondition, setSelectedCondition] = useState(null);
 
   const addNewListItem = (newListItem, itemType) => {
-    saveLocalStorageList(itemType, [
-      ...localStorageConditionsList,
-      newListItem,
-    ]);
     const addItemFunction = (oldItemsList) => {
       return [...oldItemsList, newListItem];
     };
     if (itemType === "condition") {
       setConditionsList(addItemFunction);
-      // add new conditions to local storage
+      saveLocalStorageList(itemType, [
+        ...localStorageConditionsList,
+        newListItem,
+      ]);
+    } else if (itemType === "solution") {
+      setSolutionsList(addItemFunction);
+      saveLocalStorageList(itemType, [
+        ...localStorageSolutionsList,
+        newListItem,
+      ]);
     }
   };
 
@@ -55,9 +62,9 @@ export default function App() {
             }}
           >
             <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
-              <ItemsList title="Conditions" itemsList={conditionsList} />
-              <ItemsList title="Solutions" itemsList={[]} cardAddOn="" />
-              <ItemsList title="Tasks" itemsList={[]} cardAddOn="checkbox" />
+              <ItemsList listType="condition" itemsList={conditionsList} />
+              <ItemsList listType="solution" itemsList={solutionsList} />
+              <ItemsList listType="task" itemsList={[]} cardAddOn="checkbox" />
             </div>
           </ListsContext.Provider>
         </main>
