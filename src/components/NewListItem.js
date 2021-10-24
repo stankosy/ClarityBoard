@@ -16,10 +16,6 @@ export default function NewListItem(props) {
     setListItemContent("");
   };
 
-  if (props.isVisible === false) {
-    return <></>;
-  }
-
   return (
     <li className="relative py-2 px-4 hover:bg-gray-50 focus-within:ring-inset focus-within:ring-indigo-600">
       <form onSubmit={saveFormContent}>

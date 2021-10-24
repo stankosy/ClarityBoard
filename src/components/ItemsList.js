@@ -73,12 +73,13 @@ export default function ItemsList(props) {
                 </div>
               </li>
             ))}
-            <NewListItem
-              isVisible={cardInputVisible}
-              listName={props.title}
-              onAddListItem={addNewListItem}
-              onDeactivateCardInput={toggleCardInputVisible}
-            />
+            {cardInputVisible && (
+              <NewListItem
+                listName={props.title}
+                onAddListItem={addNewListItem}
+                onDeactivateCardInput={toggleCardInputVisible}
+              />
+            )}
           </ul>
         </div>
       </div>
