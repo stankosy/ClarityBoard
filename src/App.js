@@ -5,15 +5,25 @@ import { useState } from "react/cjs/react.development";
 import ListsContext from "./context/lists-context";
 
 const getLocalStorageList = (listType) => {
-  return JSON.parse(localStorage.getItem(listType));
+  return JSON.parse(localStorage.getItem(listType)) || [];
+};
+
+const saveLocalStorageList = (listType, newList) => {
+  localStorage.setItem(listType, JSON.stringify(newList));
 };
 
 export default function App() {
+  let localStorageConditionsList = getLocalStorageList("condition");
+
   const [conditionsList, setConditionsList] = useState(
-    getLocalStorageList("conditions")
+    localStorageConditionsList
   );
 
   const addNewListItem = (newListItem, itemType) => {
+    saveLocalStorageList(itemType, [
+      ...localStorageConditionsList,
+      newListItem,
+    ]);
     const addItemFunction = (oldItemsList) => {
       return [...oldItemsList, newListItem];
     };
