@@ -5,12 +5,10 @@ import { useState } from "react/cjs/react.development";
 export default function ItemsList(props) {
   const [cardInputVisible, setCardInputVisible] = useState(false);
 
-  const activateCardInput = () => {
-    setCardInputVisible(true);
+  const toggleCardInputVisible = () => {
+    setCardInputVisible(cardInputVisible ? false : true);
   };
-  const deactivateCardInput = () => {
-    setCardInputVisible(false);
-  };
+
   const addNewListItem = (newListItem) => {
     props.onAddListItem(newListItem);
     return newListItem;
@@ -48,7 +46,7 @@ export default function ItemsList(props) {
             <button
               type="button"
               className="inline-flex items-center p-1 border border-transparent rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={activateCardInput}
+              onClick={toggleCardInputVisible}
             >
               <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
             </button>
@@ -60,7 +58,7 @@ export default function ItemsList(props) {
         <ul role="list" className="divide-y divide-gray-200">
           {props.itemsList.map((listItem) => (
             <li
-              key={listItem.key}
+              key={listItem.id}
               className="relative flex items-start py-2 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
             >
               {cardAddOnItem}
@@ -78,7 +76,7 @@ export default function ItemsList(props) {
             isVisible={cardInputVisible}
             listName={props.title}
             onAddListItem={addNewListItem}
-            onDeactivateCardInput={deactivateCardInput}
+            onDeactivateCardInput={toggleCardInputVisible}
           />
         </ul>
       </div>
