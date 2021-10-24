@@ -1,7 +1,10 @@
-import { useState } from "react/cjs/react.development";
+import { useState, useContext } from "react/cjs/react.development";
+import ListsContext from "../context/lists-context";
 
 export default function NewListItem(props) {
   const [listItemContent, setListItemContent] = useState("");
+
+  const listsContext = useContext(ListsContext);
 
   const titleChangeHandler = (event) => {
     setListItemContent(event.target.value);
@@ -12,7 +15,15 @@ export default function NewListItem(props) {
     if (listItemContent.trim() === "") {
       return;
     }
-    props.onAddListItem(listItemContent);
+
+    listsContext.onAddNewListItem(
+      {
+        id: Date.now(),
+        // parent: props.parent,
+        content: listItemContent,
+      },
+      "condition"
+    );
     setListItemContent("");
   };
 
@@ -25,8 +36,7 @@ export default function NewListItem(props) {
             rows={2}
             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md"
             placeholder={
-              "Add a new " +
-              props.listName.toLowerCase() +
+              "Add a new" +
               '\n"Ctrl + Enter" to save'
             }
             // defaultValue={listItemContent}

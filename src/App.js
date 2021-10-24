@@ -2,6 +2,7 @@ import NavigationBar from "./components/NavigationBar";
 import ItemsList from "./components/ItemsList";
 import DashboardTitle from "./components/DashboardTitle";
 import { useState } from "react/cjs/react.development";
+import ListsContext from "./context/lists-context";
 
 const CONDITIONS_LIST = [
   {
@@ -19,10 +20,14 @@ const CONDITIONS_LIST = [
 export default function App() {
   const [conditionsList, setConditionsList] = useState(CONDITIONS_LIST);
 
-  const addNewListItem = (newListItem) => {
-    setConditionsList((oldConditionsList) => {
-      return [...oldConditionsList, { id: Date.now(), content: newListItem }];
-    });
+  const addNewListItem = (newListItem, itemType) => {
+    const addItemFunction = (oldItemsList) => {
+      return [...oldItemsList, newListItem];
+    }
+    if (itemType === "condition") {
+      setConditionsList(addItemFunction);
+      // add new conditions to local storage
+    }
   };
 
   return (
@@ -34,16 +39,21 @@ export default function App() {
         </header>
 
         <main>
-          <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
-            <ItemsList
-              title="Condition"
-              itemsList={conditionsList}
-              onAddListItem={addNewListItem}
-              cardAddOn=""
-            />
-            <ItemsList title="Solution" itemsList={[]} cardAddOn="" />
-            <ItemsList title="Task" itemsList={[]} cardAddOn="checkbox" />
-          </div>
+          <ListsContext.Provider
+            value={{
+              conditionsList: conditionsList,
+              onAddNewListItem: addNewListItem,
+            }}
+          >
+            <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
+              <ItemsList
+                title="Conditions"
+                itemsList={conditionsList}
+              />
+              <ItemsList title="Solutions" itemsList={[]} cardAddOn="" />
+              <ItemsList title="Tasks" itemsList={[]} cardAddOn="checkbox" />
+            </div>
+          </ListsContext.Provider>
         </main>
       </div>
     </div>

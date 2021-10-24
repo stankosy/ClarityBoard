@@ -9,10 +9,6 @@ export default function ItemsList(props) {
     setCardInputVisible(cardInputVisible ? false : true);
   };
 
-  const addNewListItem = (newListItem) => {
-    props.onAddListItem(newListItem);
-    return newListItem;
-  };
 
   let cardAddOnItem = {};
   if (props.cardAddOn === "checkbox") {
@@ -40,7 +36,7 @@ export default function ItemsList(props) {
           <div className="-ml-6 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
             <div className="ml-4 mt-4">
               <h3 className="font-bold text-lg leading-6 font-medium text-gray-900">
-                {props.title + "s"}
+                {props.title}
               </h3>
             </div>
             <div className="ml-4 mt-4 flex-shrink-0">
@@ -75,8 +71,7 @@ export default function ItemsList(props) {
             ))}
             {cardInputVisible && (
               <NewListItem
-                listName={props.title}
-                onAddListItem={addNewListItem}
+                // parent={this.id}
                 onDeactivateCardInput={toggleCardInputVisible}
               />
             )}
