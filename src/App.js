@@ -17,9 +17,7 @@ const CONDITIONS_LIST = [
 ];
 
 export default function App() {
-  const [conditionsList, setConditionsList] = useState(
-    CONDITIONS_LIST
-  );
+  const [conditionsList, setConditionsList] = useState(CONDITIONS_LIST);
 
   const addNewListItem = (newListItem) => {
     setConditionsList((oldConditionsList) => {
@@ -37,24 +35,14 @@ export default function App() {
 
         <main>
           <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
-            <div className="px-4 py-5 sm:px-0">
-              <ItemsList
-                title="Condition"
-                itemsList={conditionsList}
-                onAddListItem={addNewListItem}
-                cardAddOn=""
-              />
-            </div>
-            <div className="px-4 py-5 sm:px-0">
-              <ItemsList
-                title="Solution"
-                itemsList={[]}
-                cardAddOn=""
-              />
-            </div>
-            <div className="px-4 py-5 sm:px-0">
-              <ItemsList title="Task" itemsList={[]} cardAddOn="checkbox" />
-            </div>
+            <ItemsList
+              title="Condition"
+              itemsList={conditionsList}
+              onAddListItem={addNewListItem}
+              cardAddOn=""
+            />
+            <ItemsList title="Solution" itemsList={[]} cardAddOn="" />
+            <ItemsList title="Task" itemsList={[]} cardAddOn="checkbox" />
           </div>
         </main>
       </div>
