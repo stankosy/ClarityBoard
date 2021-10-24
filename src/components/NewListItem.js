@@ -1,18 +1,13 @@
-import { useState, useContext } from "react/cjs/react.development";
+import { useRef, useContext } from "react/cjs/react.development";
 import ListsContext from "../context/lists-context";
 
 export default function NewListItem(props) {
-  const [listItemContent, setListItemContent] = useState("");
-
+  const listItemContent = useRef(null);
   const listsContext = useContext(ListsContext);
-
-  const titleChangeHandler = (event) => {
-    setListItemContent(event.target.value);
-  };
 
   const saveFormContent = (event) => {
     event.preventDefault();
-    if (listItemContent.trim() === "") {
+    if (listItemContent.current.value.trim() === "") {
       return;
     }
 
@@ -20,11 +15,12 @@ export default function NewListItem(props) {
       {
         id: Date.now(),
         // parent: props.parent,
-        content: listItemContent,
+        content: listItemContent.current.value,
       },
       "condition"
     );
-    setListItemContent("");
+
+    listItemContent.current.value = "";
   };
 
   return (
@@ -35,13 +31,9 @@ export default function NewListItem(props) {
             name="item-content"
             rows={2}
             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md"
-            placeholder={
-              "Add a new" +
-              '\n"Ctrl + Enter" to save'
-            }
-            // defaultValue={listItemContent}
-            value={listItemContent}
-            onChange={titleChangeHandler}
+            placeholder={'Add a new, "Ctrl + Enter" to save'}
+            ref={listItemContent}
+            required
           />
         </div>
         <div className="flex justify-end py-2">
