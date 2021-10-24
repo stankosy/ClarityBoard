@@ -4,26 +4,19 @@ import DashboardTitle from "./components/DashboardTitle";
 import { useState } from "react/cjs/react.development";
 import ListsContext from "./context/lists-context";
 
-const CONDITIONS_LIST = [
-  {
-    id: 1,
-    content:
-      "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
-  },
-  {
-    id: 2,
-    content:
-      "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere.",
-  },
-];
+const getLocalStorageList = (listType) => {
+  return JSON.parse(localStorage.getItem(listType));
+};
 
 export default function App() {
-  const [conditionsList, setConditionsList] = useState(CONDITIONS_LIST);
+  const [conditionsList, setConditionsList] = useState(
+    getLocalStorageList("conditions")
+  );
 
   const addNewListItem = (newListItem, itemType) => {
     const addItemFunction = (oldItemsList) => {
       return [...oldItemsList, newListItem];
-    }
+    };
     if (itemType === "condition") {
       setConditionsList(addItemFunction);
       // add new conditions to local storage
@@ -46,10 +39,7 @@ export default function App() {
             }}
           >
             <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
-              <ItemsList
-                title="Conditions"
-                itemsList={conditionsList}
-              />
+              <ItemsList title="Conditions" itemsList={conditionsList} />
               <ItemsList title="Solutions" itemsList={[]} cardAddOn="" />
               <ItemsList title="Tasks" itemsList={[]} cardAddOn="checkbox" />
             </div>
