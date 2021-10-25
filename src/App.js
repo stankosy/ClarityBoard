@@ -7,9 +7,20 @@ import ListsContext from "./context/lists-context";
 const getLocalStorageList = (listType) => {
   return JSON.parse(localStorage.getItem(listType)) || [];
 };
+const getLocalStorageDict = (listType) => {
+  return JSON.parse(localStorage.getItem(listType)) || {};
+};
 
 const saveLocalStorageList = (listType, newList) => {
   localStorage.setItem(listType, JSON.stringify(newList));
+};
+
+const updateSelectedRelationship = (parentId, childId, selectedItemsDict) => {
+  console.log(parentId);
+  console.log(childId);
+  selectedItemsDict[`${parentId}`] = childId;
+  localStorage.setItem("selectedItems", JSON.stringify(selectedItemsDict));
+  console.log(selectedItemsDict);
 };
 
 const filterItemsByParent = (itemsList, parentIdsList) => {
@@ -24,6 +35,7 @@ const filterItemsByParent = (itemsList, parentIdsList) => {
 export default function App() {
   let localStorageConditionsList = getLocalStorageList("condition");
   let localStorageSolutionsList = getLocalStorageList("solution");
+  let localStorageSelectedItems = getLocalStorageDict("selectedItems");
 
   const [conditionsList, setConditionsList] = useState(
     localStorageConditionsList
@@ -67,9 +79,20 @@ export default function App() {
               addNewListItem: addNewListItem,
               selectCondition: (id) => {
                 setSelectedCondition(id);
+                updateSelectedRelationship(
+                  "index",
+                  id,
+                  localStorageSelectedItems
+                );
+                setSelectedSolution(localStorageSelectedItems[id]);
               },
               selectSolution: (id) => {
                 setSelectedSolution(id);
+                updateSelectedRelationship(
+                  selectedCondition,
+                  id,
+                  localStorageSelectedItems
+                );
               },
               selectedCondition: selectedCondition,
               selectedSolution: selectedSolution,
@@ -79,9 +102,10 @@ export default function App() {
               <ItemsList listType="condition" itemsList={conditionsList} />
               <ItemsList
                 listType="solution"
-                itemsList={
-                  filterItemsByParent(solutionsList, selectedCondition)
-                }
+                itemsList={filterItemsByParent(
+                  solutionsList,
+                  selectedCondition
+                )}
               />
               <ItemsList listType="task" itemsList={[]} cardAddOn="checkbox" />
             </div>
