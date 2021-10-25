@@ -14,7 +14,7 @@ export default function NewListItem(props) {
     listsContext.addNewListItem(
       {
         id: Date.now(),
-        parentId: props.listType == "solution" ? listsContext.selectedCondition : listsContext.selectedsolution,
+        parentId: props.listType == "solution" ? listsContext.selectedCondition : listsContext.selectedSolution,
         content: listItemContent.current.value,
       },
       props.listType

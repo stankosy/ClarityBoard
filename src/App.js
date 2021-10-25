@@ -35,17 +35,20 @@ const filterItemsByParent = (itemsList, parentIdsList) => {
 export default function App() {
   let localStorageConditionsList = getLocalStorageList("condition");
   let localStorageSolutionsList = getLocalStorageList("solution");
+  let localStorageTasksList = getLocalStorageList("task");
   let localStorageSelectedItems = getLocalStorageDict("selectedItems");
 
   const [conditionsList, setConditionsList] = useState(
     localStorageConditionsList
   );
   const [solutionsList, setSolutionsList] = useState(localStorageSolutionsList);
+  const [tasksList, setTasksList] = useState(localStorageTasksList);
 
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
 
   const addNewListItem = (newListItem, itemType) => {
+    console.log(newListItem, itemType);
     const addItemFunction = (oldItemsList) => {
       return [...oldItemsList, newListItem];
     };
@@ -61,6 +64,9 @@ export default function App() {
         ...localStorageSolutionsList,
         newListItem,
       ]);
+    } else if (itemType === "task") {
+      setTasksList(addItemFunction);
+      saveLocalStorageList(itemType, [...localStorageTasksList, newListItem]);
     }
   };
 
@@ -69,7 +75,7 @@ export default function App() {
       <NavigationBar />
       <div className="py-4">
         <header>
-          <DashboardTitle title="Hire a new Frontend Developer" />
+          <DashboardTitle title="# Hire a new Frontend Developer" />
         </header>
 
         <main>
@@ -107,7 +113,14 @@ export default function App() {
                   selectedCondition
                 )}
               />
-              <ItemsList listType="task" itemsList={[]} cardAddOn="checkbox" />
+              <ItemsList
+                listType="task"
+                itemsList={filterItemsByParent(
+                  tasksList,
+                  selectedSolution
+                )}
+                cardAddOn="checkbox"
+              />
             </div>
           </ListsContext.Provider>
         </main>
