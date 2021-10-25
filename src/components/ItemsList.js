@@ -1,6 +1,7 @@
 import NewListItem from "./NewListItem";
 import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
-import { useState } from "react/cjs/react.development";
+import { useState, useContext } from "react/cjs/react.development";
+import ListsContext from "../context/lists-context";
 
 export default function ItemsList(props) {
   const [cardInputVisible, setCardInputVisible] = useState(false);
@@ -9,6 +10,7 @@ export default function ItemsList(props) {
     setCardInputVisible(cardInputVisible ? false : true);
   };
 
+  const listsContext = useContext(ListsContext);
 
   let cardAddOnItem = {};
   if (props.cardAddOn === "checkbox") {
@@ -29,14 +31,22 @@ export default function ItemsList(props) {
     cardAddOnItem = <></>;
   }
 
+  const setSelectedItem = (listItem) => {
+    if (props.listType == "condition") {
+      listsContext.selectCondition(listItem.id);
+    } else if (props.listType == "solution") {
+      listsContext.selectSolution(listItem.id);
+    }
+  };
+
   return (
     <div className="px-4 py-5 sm:px-0">
       <div className="bg-white shadow-xl rounded-md">
         <div className=" px-4 py-2 border-b border-gray-200 sm:px-6 ">
           <div className="-ml-6 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
             <div className="ml-4 mt-4">
-              <h3 className="font-bold text-lg leading-6 font-medium text-gray-900">
-                {props.title}
+              <h3 className="capitalize font-bold text-lg leading-6 font-medium text-gray-900">
+                {props.listType + "s"}
               </h3>
             </div>
             <div className="ml-4 mt-4 flex-shrink-0">
@@ -56,7 +66,17 @@ export default function ItemsList(props) {
             {props.itemsList.map((listItem) => (
               <li
                 key={listItem.id}
-                className="relative flex items-start py-2 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+                className={`relative flex items-start py-2 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ${
+                  listItem.id ==
+                  (props.listType == "condition"
+                    ? listsContext.selectedCondition
+                    : listsContext.selectedSolution)
+                    ? " bg-gray-100"
+                    : ""
+                }`}
+                onClick={() => {
+                  setSelectedItem(listItem);
+                }}
               >
                 {cardAddOnItem}
                 <div>
@@ -71,7 +91,7 @@ export default function ItemsList(props) {
             ))}
             {cardInputVisible && (
               <NewListItem
-                // parent={this.id}
+                listType={props.listType}
                 onDeactivateCardInput={toggleCardInputVisible}
               />
             )}

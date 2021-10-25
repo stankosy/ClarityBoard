@@ -11,13 +11,13 @@ export default function NewListItem(props) {
       return;
     }
 
-    listsContext.onAddNewListItem(
+    listsContext.addNewListItem(
       {
         id: Date.now(),
-        // parent: props.parent,
+        parentId: props.listType == "solution" ? listsContext.selectedCondition : listsContext.selectedSolution,
         content: listItemContent.current.value,
       },
-      "condition"
+      props.listType
     );
 
     listItemContent.current.value = "";
