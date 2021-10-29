@@ -92,6 +92,7 @@ export default function ItemsList(props) {
             {cardInputVisible && (
               <NewListItem
                 listType={props.listType}
+                parentId={props.parentId}
                 onDeactivateCardInput={toggleCardInputVisible}
               />
             )}
