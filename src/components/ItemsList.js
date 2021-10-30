@@ -74,7 +74,7 @@ export default function ItemsList(props) {
                   )}
                   <div>
                     <p className="line-clamp-2 text-sm text-gray-600">
-                      {listItem.content}
+                      {listItem.title}
                     </p>
                   </div>
                   <div className="flex justify-between space-x-3">

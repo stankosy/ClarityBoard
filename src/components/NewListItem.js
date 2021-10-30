@@ -11,12 +11,20 @@ export default function NewListItem(props) {
       return;
     }
 
+    const itemId = Date.now();
     listsContext.addNewListItem({
-      id: Date.now(),
+      id: itemId,
       parentId: props.parentId,
       itemType: props.listType,
-      content: listItemContent.current.value,
+      title: listItemContent.current.value,
     });
+
+    // Select the created item
+    if (props.listType == "condition") {
+      listsContext.selectCondition(itemId);
+    } else if (props.listType == "solution") {
+      listsContext.selecTSolution(itemId);
+    }
 
     listItemContent.current.value = "";
   };
