@@ -93,7 +93,7 @@ export default function ItemsList(props) {
                     <div className="min-w-0 flex-1"></div>
                   </div>
                 </li>
-                {listItem.listType != "item" && listItem.progress_percent ? (
+                {listItem.itemType != "task" && listItem.progress_percent !== undefined ? (
                   <ItemProgressBar percent={listItem.progress_percent * 100} />
                 ) : (
                   <></>
