@@ -101,7 +101,7 @@ export default function App() {
                   localStorageItemsList,
                   selectedSolution
                 )}
-                cardAddOn="checkbox"
+                includeCheckbox={true}
               />
             </div>
           </ListsContext.Provider>

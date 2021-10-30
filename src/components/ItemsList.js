@@ -61,7 +61,7 @@ export default function ItemsList(props) {
                     setSelectedItem(listItem);
                   }}
                 >
-                  {props.cardAddOn === "checkbox" && (
+                  {props.includeCheckbox && (
                     <div className="flex items-center h-6 mr-4">
                       <input
                         id="comments"
@@ -81,8 +81,8 @@ export default function ItemsList(props) {
                     <div className="min-w-0 flex-1"></div>
                   </div>
                 </li>
-                {props.cardAddOn != "checkbox" && listItem.progress_percent && (
-                  <ItemProgressBar percent={30} />
+                {listItem.progress_percent && (
+                  <ItemProgressBar percent={listItem.progress_percent*100} />
                 )}
               </>
             ))}
