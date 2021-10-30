@@ -2,9 +2,7 @@ import NavigationBar from "./components/NavigationBar";
 import ItemsList from "./components/ItemsList";
 import DashboardTitle from "./components/DashboardTitle";
 import ListsContext from "./context/lists-context";
-
 import { useState } from "react";
-import { MenuIcon } from "@heroicons/react/outline";
 
 const getLocalStorageList = (listType) => {
   return JSON.parse(localStorage.getItem(listType)) || [];
@@ -55,7 +53,6 @@ export default function App() {
     });
     saveLocalStorageList("items", [...localStorageItemsList, newListItem]);
   };
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div>

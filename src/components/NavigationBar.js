@@ -1,4 +1,3 @@
-
 import {
   CalendarIcon,
   ChartBarIcon,
@@ -6,16 +5,16 @@ import {
   HomeIcon,
   InboxIcon,
   UsersIcon,
-} from '@heroicons/react/outline'
+} from "@heroicons/react/outline";
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
-]
+  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
+  { name: "Team", href: "#", icon: UsersIcon, current: false },
+  { name: "Projects", href: "#", icon: FolderIcon, current: false },
+  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
+  { name: "Documents", href: "#", icon: InboxIcon, current: false },
+  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
+];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -28,7 +27,7 @@ export default function NavigationBar() {
       <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white">
         <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
           <div className="flex items-center flex-shrink-0 px-4">
-          <h1>ClarityBoard</h1>
+            <h1 className="text-3xl font-bold leading-tight text-gray-900">ClarityBoard</h1>
           </div>
           <nav className="mt-5 flex-1 px-2 bg-white space-y-1">
             {navigation.map((item) => (
