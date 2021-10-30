@@ -53,27 +53,30 @@ export default function App() {
 
   const updateProgress = (item) => {
     while (item.parentId !== undefined) {
+      console.log("item", item);
+      console.log("itemsList", itemsList);
 
       // get the children of the item's parent
       let childrenItems = filterListItems(itemsList, "parentId", item.parentId);
+      console.log("childrenItems", childrenItems);
 
       // calculate the avr progress
       let progressItemsList = childrenItems.map(
         (item) => item.progress_percent
       );
-      progressItemsList = progressItemsList.filter(x => x !== undefined);
-      
-      let avr_progress = progressItemsList.reduce((prev, curr) => prev + curr) /
-        progressItemsList.length;
-
-      console.log("item", item);
-      console.log("childrenItems", childrenItems);
+      progressItemsList = progressItemsList.filter((x) => x !== undefined);
       console.log("progressItemsList", progressItemsList);
-      console.log("avr_progress", avr_progress);
 
-      // update this parent and get it's parent
-      updateItem(item.parentId, "progress_percent", avr_progress);      
-      item = filterListItems(itemsList, "id", item.parentId)[0];
+      if (progressItemsList.length) {
+        let avr_progress =
+          progressItemsList.reduce((prev, curr) => prev + curr) /
+          progressItemsList.length;
+        console.log("avr_progress", avr_progress);
+
+        // update this parent and get it's parent
+        updateItem(item.parentId, "progress_percent", avr_progress);
+        item = filterListItems(itemsList, "id", item.parentId)[0];
+      }
     }
   };
 
@@ -82,7 +85,9 @@ export default function App() {
       return [...oldItemsList, newListItem];
     });
     saveLocalStorageList("items", [...localStorageItemsList, newListItem]);
+    // updateProgress(newListItem); // causing issues right now
   };
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -91,7 +96,7 @@ export default function App() {
       <div className="md:pl-64 flex flex-col flex-1">
         <main className="flex-1">
           <div className="py-6">
-            <DashboardTitle title="# Hire a new Frontend Developer" />
+            <DashboardTitle title="Hire a new Frontend Developer" />
             <ListsContext.Provider
               value={{
                 itemsList: itemsList,

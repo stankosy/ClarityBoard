@@ -78,7 +78,6 @@ export default function ItemsList(props) {
                             "progress_percent",
                             checkboxState
                           );
-                          console.log('clicked')
                           listsContext.updateProgress(listItem)
                         }}
                       />
