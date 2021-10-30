@@ -49,7 +49,7 @@ export default function ItemsList(props) {
               <>
                 <li
                   key={listItem.id}
-                  className={`relative flex items-start py-2 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ${
+                  className={`relative flex items-start py-2 px-4 hover:bg-gray-50 ${
                     listItem.id ==
                     (props.listType == "condition"
                       ? listsContext.selectedCondition
