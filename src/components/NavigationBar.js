@@ -1,9 +1,21 @@
-import { Disclosure } from "@headlessui/react";
-import { MenuIcon, XIcon } from "@heroicons/react/outline";
+
+import {
+  CalendarIcon,
+  ChartBarIcon,
+  FolderIcon,
+  HomeIcon,
+  InboxIcon,
+  UsersIcon,
+} from '@heroicons/react/outline'
 
 const navigation = [
-  { name: "Objectives", href: "#", current: true },
-];
+  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
+  { name: 'Team', href: '#', icon: UsersIcon, current: false },
+  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
+  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
+  { name: 'Documents', href: '#', icon: InboxIcon, current: false },
+  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -11,78 +23,40 @@ function classNames(...classes) {
 
 export default function NavigationBar() {
   return (
-    <Disclosure as="nav" className="bg-white shadow-sm">
-      {({ open }) => (
-        <>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-              <div className="flex">
-                <div className="flex-shrink-0 flex items-center">
-                  <img
-                    className="block lg:hidden h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                    alt="Workflow"
-                  />
-                  <img
-                    className="hidden lg:block h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-800-text.svg"
-                    alt="Workflow"
-                  />
-                </div>
-                <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? "border-indigo-500 text-gray-900"
-                          : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
-                        "inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                      )}
-                      aria-current={item.current ? "page" : undefined}
-                    >
-                      {item.name}
-                    </a>
-                  ))}
-                </div>
-              </div>
-              <div className="hidden sm:ml-6 sm:flex sm:items-center"></div>
-              <div className="-mr-2 flex items-center sm:hidden">
-                {/* Mobile menu button */}
-                <Disclosure.Button className="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  <span className="sr-only">Open main menu</span>
-                  {open ? (
-                    <XIcon className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <MenuIcon className="block h-6 w-6" aria-hidden="true" />
-                  )}
-                </Disclosure.Button>
-              </div>
-            </div>
+    <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
+      {/* Sidebar component, swap this element with another sidebar if you like */}
+      <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white">
+        <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+          <div className="flex items-center flex-shrink-0 px-4">
+          <h1>ClarityBoard</h1>
           </div>
-
-          <Disclosure.Panel className="sm:hidden">
-            <div className="pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
+          <nav className="mt-5 flex-1 px-2 bg-white space-y-1">
+            {navigation.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className={classNames(
+                  item.current
+                    ? "bg-gray-100 text-gray-900"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                  "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                )}
+              >
+                <item.icon
                   className={classNames(
                     item.current
-                      ? "bg-indigo-50 border-indigo-500 text-indigo-700"
-                      : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800",
-                    "block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
+                      ? "text-gray-500"
+                      : "text-gray-400 group-hover:text-gray-500",
+                    "mr-3 flex-shrink-0 h-6 w-6"
                   )}
-                  aria-current={item.current ? "page" : undefined}
-                >
-                  {item.name}
-                </a>
-              ))}
-            </div>
-          </Disclosure.Panel>
-        </>
-      )}
-    </Disclosure>
+                  aria-hidden="true"
+                />
+                {item.name}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </div>
+    </div>
   );
 }

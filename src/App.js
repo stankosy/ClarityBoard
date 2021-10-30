@@ -1,8 +1,10 @@
 import NavigationBar from "./components/NavigationBar";
 import ItemsList from "./components/ItemsList";
 import DashboardTitle from "./components/DashboardTitle";
-import { useState } from "react/cjs/react.development";
 import ListsContext from "./context/lists-context";
+
+import { useState } from "react";
+import { MenuIcon } from "@heroicons/react/outline";
 
 const getLocalStorageList = (listType) => {
   return JSON.parse(localStorage.getItem(listType)) || [];
@@ -53,68 +55,138 @@ export default function App() {
     });
     saveLocalStorageList("items", [...localStorageItemsList, newListItem]);
   };
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <NavigationBar />
-      <div className="py-4">
-        <header>
-          <DashboardTitle title="# Hire a new Frontend Developer" />
-        </header>
+    //     <div className="min-h-screen bg-gray-100">
+    //       <NavigationBar />
+    //       <div className="py-4">
+    //         <header>
+    //           <DashboardTitle title="# Hire a new Frontend Developer" />
+    //         </header>
 
-        <main>
-          <ListsContext.Provider
-            value={{
-              itemsList: itemsList,
-              addNewListItem: addNewListItem,
-              updateItem: updateItem,
-              selectCondition: (id) => {
-                setSelectedCondition(id);
-                updateSelectedRelationship(
-                  "index",
-                  id,
-                  localStorageSelectedItems
-                );
-                setSelectedSolution(localStorageSelectedItems[id]);
-              },
-              selectSolution: (id) => {
-                setSelectedSolution(id);
-                updateSelectedRelationship(
-                  selectedCondition,
-                  id,
-                  localStorageSelectedItems
-                );
-              },
-              selectedCondition: selectedCondition,
-              selectedSolution: selectedSolution,
-            }}
-          >
-            <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
-              <ItemsList
-                listType="condition"
-                itemsList={filterListItems(itemsList, "listType", "condition")}
-              />
-              <ItemsList
-                listType="solution"
-                parentId={selectedCondition}
-                itemsList={filterListItems(
-                  itemsList,
-                  "parentId",
-                  selectedCondition
-                )}
-              />
-              <ItemsList
-                listType="task"
-                parentId={selectedSolution}
-                itemsList={filterListItems(
-                  itemsList,
-                  "parentId",
-                  selectedSolution
-                )}
-                includeCheckbox={true}
-              />
-            </div>
-          </ListsContext.Provider>
+    //         <main>
+    //           <ListsContext.Provider
+    //             value={{
+    //               itemsList: itemsList,
+    //               addNewListItem: addNewListItem,
+    //               updateItem: updateItem,
+    //               selectCondition: (id) => {
+    //                 setSelectedCondition(id);
+    //                 updateSelectedRelationship(
+    //                   "index",
+    //                   id,
+    //                   localStorageSelectedItems
+    //                 );
+    //                 setSelectedSolution(localStorageSelectedItems[id]);
+    //               },
+    //               selectSolution: (id) => {
+    //                 setSelectedSolution(id);
+    //                 updateSelectedRelationship(
+    //                   selectedCondition,
+    //                   id,
+    //                   localStorageSelectedItems
+    //                 );
+    //               },
+    //               selectedCondition: selectedCondition,
+    //               selectedSolution: selectedSolution,
+    //             }}
+    //           >
+    //             <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
+    //               <ItemsList
+    //                 listType="condition"
+    //                 itemsList={filterListItems(itemsList, "listType", "condition")}
+    //               />
+    //               <ItemsList
+    //                 listType="solution"
+    //                 parentId={selectedCondition}
+    //                 itemsList={filterListItems(
+    //                   itemsList,
+    //                   "parentId",
+    //                   selectedCondition
+    //                 )}
+    //               />
+    //               <ItemsList
+    //                 listType="task"
+    //                 parentId={selectedSolution}
+    //                 itemsList={filterListItems(
+    //                   itemsList,
+    //                   "parentId",
+    //                   selectedSolution
+    //                 )}
+    //                 includeCheckbox={true}
+    //               />
+    //             </div>
+    //           </ListsContext.Provider>
+    //         </main>
+    //       </div>
+    //     </div>
+    //   );
+    // }
+
+    <div>
+      <NavigationBar />
+      <div className="md:pl-64 flex flex-col flex-1">
+        <main className="flex-1">
+          <div className="py-6">
+            <DashboardTitle title="# Hire a new Frontend Developer" />
+            <ListsContext.Provider
+              value={{
+                itemsList: itemsList,
+                addNewListItem: addNewListItem,
+                updateItem: updateItem,
+                selectCondition: (id) => {
+                  setSelectedCondition(id);
+                  updateSelectedRelationship(
+                    "index",
+                    id,
+                    localStorageSelectedItems
+                  );
+                  setSelectedSolution(localStorageSelectedItems[id]);
+                },
+                selectSolution: (id) => {
+                  setSelectedSolution(id);
+                  updateSelectedRelationship(
+                    selectedCondition,
+                    id,
+                    localStorageSelectedItems
+                  );
+                },
+                selectedCondition: selectedCondition,
+                selectedSolution: selectedSolution,
+              }}
+            >
+              <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
+                <ItemsList
+                  listType="condition"
+                  itemsList={filterListItems(
+                    itemsList,
+                    "listType",
+                    "condition"
+                  )}
+                />
+                <ItemsList
+                  listType="solution"
+                  parentId={selectedCondition}
+                  itemsList={filterListItems(
+                    itemsList,
+                    "parentId",
+                    selectedCondition
+                  )}
+                />
+                <ItemsList
+                  listType="task"
+                  parentId={selectedSolution}
+                  itemsList={filterListItems(
+                    itemsList,
+                    "parentId",
+                    selectedSolution
+                  )}
+                  includeCheckbox={true}
+                />
+              </div>
+            </ListsContext.Provider>
+          </div>
         </main>
       </div>
     </div>
