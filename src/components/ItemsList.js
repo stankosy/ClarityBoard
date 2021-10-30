@@ -2,6 +2,7 @@ import NewListItem from "./NewListItem";
 import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 import { useState, useContext } from "react/cjs/react.development";
 import ListsContext from "../context/lists-context";
+import ItemProgressBar from "./ItemProgressBar";
 
 export default function ItemsList(props) {
   const [cardInputVisible, setCardInputVisible] = useState(false);
@@ -11,25 +12,6 @@ export default function ItemsList(props) {
   };
 
   const listsContext = useContext(ListsContext);
-
-  let cardAddOnItem = {};
-  if (props.cardAddOn === "checkbox") {
-    cardAddOnItem = (
-      <div className="flex items-center h-6 mr-4">
-        <input
-          id="comments"
-          aria-describedby="comments-description"
-          name="comments"
-          type="checkbox"
-          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-        />
-      </div>
-    );
-  } else if (props.cardAddOn === "progressBar") {
-    cardAddOnItem = <></>;
-  } else {
-    cardAddOnItem = <></>;
-  }
 
   const setSelectedItem = (listItem) => {
     if (props.listType == "condition") {
@@ -64,30 +46,45 @@ export default function ItemsList(props) {
         <div className="shadow overflow-hidden ">
           <ul role="list" className="divide-y divide-gray-200">
             {props.itemsList.map((listItem) => (
-              <li
-                key={listItem.id}
-                className={`relative flex items-start py-2 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ${
-                  listItem.id ==
-                  (props.listType == "condition"
-                    ? listsContext.selectedCondition
-                    : listsContext.selectedSolution)
-                    ? " bg-gray-100"
-                    : ""
-                }`}
-                onClick={() => {
-                  setSelectedItem(listItem);
-                }}
-              >
-                {cardAddOnItem}
-                <div>
-                  <p className="line-clamp-2 text-sm text-gray-600">
-                    {listItem.content}
-                  </p>
-                </div>
-                <div className="flex justify-between space-x-3">
-                  <div className="min-w-0 flex-1"></div>
-                </div>
-              </li>
+              <>
+                <li
+                  key={listItem.id}
+                  className={`relative flex items-start py-2 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 ${
+                    listItem.id ==
+                    (props.listType == "condition"
+                      ? listsContext.selectedCondition
+                      : listsContext.selectedSolution)
+                      ? " bg-gray-100"
+                      : ""
+                  }`}
+                  onClick={() => {
+                    setSelectedItem(listItem);
+                  }}
+                >
+                  {props.cardAddOn === "checkbox" && (
+                    <div className="flex items-center h-6 mr-4">
+                      <input
+                        id="comments"
+                        aria-describedby="comments-description"
+                        name="comments"
+                        type="checkbox"
+                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                      />
+                    </div>
+                  )}
+                  <div>
+                    <p className="line-clamp-2 text-sm text-gray-600">
+                      {listItem.content}
+                    </p>
+                  </div>
+                  <div className="flex justify-between space-x-3">
+                    <div className="min-w-0 flex-1"></div>
+                  </div>
+                </li>
+                {props.cardAddOn != "checkbox" && (
+                  <ItemProgressBar percent={30} />
+                )}
+              </>
             ))}
             {cardInputVisible && (
               <NewListItem
