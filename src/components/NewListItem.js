@@ -23,7 +23,7 @@ export default function NewListItem(props) {
     if (props.listType == "condition") {
       listsContext.selectCondition(itemId);
     } else if (props.listType == "solution") {
-      listsContext.selecTSolution(itemId);
+      listsContext.selectSolution(itemId);
     }
 
     listItemContent.current.value = "";
