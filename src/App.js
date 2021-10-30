@@ -37,6 +37,16 @@ export default function App() {
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
 
+  const updateItem = (itemId, param, value) => {
+    const itemIndex = itemsList.findIndex((obj) => obj.id == itemId);
+    itemsList[itemIndex][param] = value;
+    setItemsList((oldItemsList) => {
+      oldItemsList[itemIndex][param] = value;
+      return oldItemsList;
+    });
+    saveLocalStorageList("items", itemsList);
+  };
+
   const addNewListItem = (newListItem) => {
     setItemsList((oldItemsList) => {
       return [...oldItemsList, newListItem];
@@ -57,6 +67,7 @@ export default function App() {
             value={{
               itemsList: itemsList,
               addNewListItem: addNewListItem,
+              updateItem: updateItem,
               selectCondition: (id) => {
                 setSelectedCondition(id);
                 updateSelectedRelationship(
@@ -81,17 +92,13 @@ export default function App() {
             <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
               <ItemsList
                 listType="condition"
-                itemsList={filterListItems(
-                  localStorageItemsList,
-                  "listType",
-                  "condition"
-                )}
+                itemsList={filterListItems(itemsList, "listType", "condition")}
               />
               <ItemsList
                 listType="solution"
                 parentId={selectedCondition}
                 itemsList={filterListItems(
-                  localStorageItemsList,
+                  itemsList,
                   "parentId",
                   selectedCondition
                 )}
@@ -100,7 +107,7 @@ export default function App() {
                 listType="task"
                 parentId={selectedSolution}
                 itemsList={filterListItems(
-                  localStorageItemsList,
+                  itemsList,
                   "parentId",
                   selectedSolution
                 )}

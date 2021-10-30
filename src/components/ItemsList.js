@@ -58,17 +58,28 @@ export default function ItemsList(props) {
                       : ""
                   }`}
                   onClick={() => {
-                    setSelectedItem(listItem);
+                    if (listItem.itemType != "task") {
+                      setSelectedItem(listItem);
+                    }
                   }}
                 >
                   {props.includeCheckbox && (
                     <div className="flex items-center h-6 mr-4">
                       <input
-                        id="comments"
-                        aria-describedby="comments-description"
-                        name="comments"
                         type="checkbox"
                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                        defaultChecked={
+                          listItem.progress_percent == 1 ? true : false
+                        }
+                        onChange={() => {
+                          const checkboxState =
+                            listItem.progress_percent == 1 ? 0 : 1;
+                          listsContext.updateItem(
+                            listItem.id,
+                            "progress_percent",
+                            checkboxState
+                          );
+                        }}
                       />
                     </div>
                   )}
@@ -81,8 +92,8 @@ export default function ItemsList(props) {
                     <div className="min-w-0 flex-1"></div>
                   </div>
                 </li>
-                {listItem.progress_percent && (
-                  <ItemProgressBar percent={listItem.progress_percent*100} />
+                {!listItem.listType == "item" && listItem.progress_percent && (
+                  <ItemProgressBar percent={listItem.progress_percent * 100} />
                 )}
               </>
             ))}
