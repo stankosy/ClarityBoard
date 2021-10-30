@@ -20,11 +20,12 @@ const updateSelectedRelationship = (parentId, childId, selectedItemsDict) => {
   localStorage.setItem("selectedItems", JSON.stringify(selectedItemsDict));
 };
 
-const filterListItems = (itemsList, parentId = false, itemType = false) => {
-  if (parentId) {
-    return itemsList.filter((i) => [parentId].includes(i.parentId));
-  } else {
-    return itemsList.filter((i) => [itemType].includes(i.itemType));
+const filterListItems = (itemsList, filterType, filterValue) => {
+  switch (filterType) {
+    case "parentId":
+      return itemsList.filter((i) => [filterValue].includes(i.parentId));
+    case "listType":
+      return itemsList.filter((i) => [filterValue].includes(i.itemType));
   }
 };
 
@@ -82,7 +83,7 @@ export default function App() {
                 listType="condition"
                 itemsList={filterListItems(
                   localStorageItemsList,
-                  false,
+                  "listType",
                   "condition"
                 )}
               />
@@ -91,6 +92,7 @@ export default function App() {
                 parentId={selectedCondition}
                 itemsList={filterListItems(
                   localStorageItemsList,
+                  "parentId",
                   selectedCondition
                 )}
               />
@@ -99,6 +101,7 @@ export default function App() {
                 parentId={selectedSolution}
                 itemsList={filterListItems(
                   localStorageItemsList,
+                  "parentId",
                   selectedSolution
                 )}
                 includeCheckbox={true}
