@@ -72,13 +72,14 @@ export default function ItemsList(props) {
                           listItem.progress_percent == 1 ? true : false
                         }
                         onChange={() => {
-                          const checkboxState =
-                            listItem.progress_percent == 1 ? 0 : 1;
+                          const checkboxState = listItem.progress_percent == 1 ? 0 : 1;
                           listsContext.updateItem(
                             listItem.id,
                             "progress_percent",
                             checkboxState
                           );
+                          console.log('clicked')
+                          listsContext.updateProgress(listItem)
                         }}
                       />
                     </div>
@@ -94,7 +95,9 @@ export default function ItemsList(props) {
                 </li>
                 {listItem.listType != "item" && listItem.progress_percent ? (
                   <ItemProgressBar percent={listItem.progress_percent * 100} />
-                ) : <></> }
+                ) : (
+                  <></>
+                )}
               </>
             ))}
             {cardInputVisible && (

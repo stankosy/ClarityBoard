@@ -1,20 +1,18 @@
 
 import {
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  UsersIcon,
+  CashIcon,
+  CloudIcon,
+  EmojiHappyIcon,
+  UserCircleIcon,
+  UserGroupIcon,
 } from '@heroicons/react/outline'
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+  { name: 'Mental', href: '#', icon: CloudIcon, current: true },
+  { name: 'Body', href: '#', icon: UserCircleIcon, current: false },
+  { name: 'Finance', href: '#', icon: CashIcon, current: false },
+  { name: 'Social', href: '#', icon: UserGroupIcon, current: false },
+  { name: 'Mom', href: '#', icon: EmojiHappyIcon, current: false },
 ]
 
 function classNames(...classes) {

@@ -28,6 +28,8 @@ const filterListItems = (itemsList, filterType, filterValue) => {
       return itemsList.filter((i) => [filterValue].includes(i.parentId));
     case "listType":
       return itemsList.filter((i) => [filterValue].includes(i.itemType));
+    case "id":
+      return itemsList.filter((i) => [filterValue].includes(i.id));
   }
 };
 
@@ -47,6 +49,32 @@ export default function App() {
       return oldItemsList;
     });
     saveLocalStorageList("items", itemsList);
+  };
+
+  const updateProgress = (item) => {
+    while (item.parentId !== undefined) {
+
+      // get the children of the item's parent
+      let childrenItems = filterListItems(itemsList, "parentId", item.parentId);
+
+      // calculate the avr progress
+      let progressItemsList = childrenItems.map(
+        (item) => item.progress_percent
+      );
+      progressItemsList = progressItemsList.filter(x => x !== undefined);
+      
+      let avr_progress = progressItemsList.reduce((prev, curr) => prev + curr) /
+        progressItemsList.length;
+
+      console.log("item", item);
+      console.log("childrenItems", childrenItems);
+      console.log("progressItemsList", progressItemsList);
+      console.log("avr_progress", avr_progress);
+
+      // update this parent and get it's parent
+      updateItem(item.parentId, "progress_percent", avr_progress);      
+      item = filterListItems(itemsList, "id", item.parentId)[0];
+    }
   };
 
   const addNewListItem = (newListItem) => {
@@ -69,6 +97,7 @@ export default function App() {
                 itemsList: itemsList,
                 addNewListItem: addNewListItem,
                 updateItem: updateItem,
+                updateProgress: updateProgress,
                 selectCondition: (id) => {
                   setSelectedCondition(id);
                   updateSelectedRelationship(
