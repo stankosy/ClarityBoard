@@ -81,7 +81,7 @@ export default function ItemsList(props) {
                     <div className="min-w-0 flex-1"></div>
                   </div>
                 </li>
-                {props.cardAddOn != "checkbox" && (
+                {props.cardAddOn != "checkbox" && listItem.progress_percent && (
                   <ItemProgressBar percent={30} />
                 )}
               </>
