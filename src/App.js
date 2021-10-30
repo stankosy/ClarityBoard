@@ -16,58 +16,31 @@ const saveLocalStorageList = (listType, newList) => {
 };
 
 const updateSelectedRelationship = (parentId, childId, selectedItemsDict) => {
-  console.log(parentId);
-  console.log(childId);
   selectedItemsDict[`${parentId}`] = childId;
   localStorage.setItem("selectedItems", JSON.stringify(selectedItemsDict));
-  console.log(selectedItemsDict);
 };
 
-const filterItemsByParent = (itemsList, parentIdsList) => {
-  if (!parentIdsList) {
-    return [];
+const filterListItems = (itemsList, parentId = false, itemType = false) => {
+  if (parentId) {
+    return itemsList.filter((i) => [parentId].includes(i.parentId));
   } else {
-    parentIdsList = [parentIdsList];
+    return itemsList.filter((i) => [itemType].includes(i.itemType));
   }
-  return itemsList.filter((i) => parentIdsList.includes(i.parentId));
 };
 
 export default function App() {
-  let localStorageConditionsList = getLocalStorageList("condition");
-  let localStorageSolutionsList = getLocalStorageList("solution");
-  let localStorageTasksList = getLocalStorageList("task");
+  let localStorageItemsList = getLocalStorageList("items");
   let localStorageSelectedItems = getLocalStorageDict("selectedItems");
 
-  const [conditionsList, setConditionsList] = useState(
-    localStorageConditionsList
-  );
-  const [solutionsList, setSolutionsList] = useState(localStorageSolutionsList);
-  const [tasksList, setTasksList] = useState(localStorageTasksList);
-
+  const [itemsList, setItemsList] = useState(localStorageItemsList);
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
 
-  const addNewListItem = (newListItem, itemType) => {
-    console.log(newListItem, itemType);
-    const addItemFunction = (oldItemsList) => {
+  const addNewListItem = (newListItem) => {
+    setItemsList((oldItemsList) => {
       return [...oldItemsList, newListItem];
-    };
-    if (itemType === "condition") {
-      setConditionsList(addItemFunction);
-      saveLocalStorageList(itemType, [
-        ...localStorageConditionsList,
-        newListItem,
-      ]);
-    } else if (itemType === "solution") {
-      setSolutionsList(addItemFunction);
-      saveLocalStorageList(itemType, [
-        ...localStorageSolutionsList,
-        newListItem,
-      ]);
-    } else if (itemType === "task") {
-      setTasksList(addItemFunction);
-      saveLocalStorageList(itemType, [...localStorageTasksList, newListItem]);
-    }
+    });
+    saveLocalStorageList("items", [...localStorageItemsList, newListItem]);
   };
 
   return (
@@ -81,7 +54,7 @@ export default function App() {
         <main>
           <ListsContext.Provider
             value={{
-              conditionsList: conditionsList,
+              itemsList: itemsList,
               addNewListItem: addNewListItem,
               selectCondition: (id) => {
                 setSelectedCondition(id);
@@ -105,18 +78,27 @@ export default function App() {
             }}
           >
             <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
-              <ItemsList listType="condition" itemsList={conditionsList} />
+              <ItemsList
+                listType="condition"
+                itemsList={filterListItems(
+                  localStorageItemsList,
+                  false,
+                  "condition"
+                )}
+              />
               <ItemsList
                 listType="solution"
-                itemsList={filterItemsByParent(
-                  solutionsList,
+                parentId={selectedCondition}
+                itemsList={filterListItems(
+                  localStorageItemsList,
                   selectedCondition
                 )}
               />
               <ItemsList
                 listType="task"
-                itemsList={filterItemsByParent(
-                  tasksList,
+                parentId={selectedSolution}
+                itemsList={filterListItems(
+                  localStorageItemsList,
                   selectedSolution
                 )}
                 cardAddOn="checkbox"
