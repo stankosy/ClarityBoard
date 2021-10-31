@@ -21,6 +21,12 @@ export default function ItemsList(props) {
     }
   };
 
+  const updateCheckbox = (listItem) => {
+    const checkboxState = listItem.progress_percent == 1 ? 0 : 1;
+    listsContext.updateItem(listItem.id, "progress_percent", checkboxState);
+    listsContext.updateProgress(listItem);
+  };
+
   return (
     <div className="px-4 py-5 sm:px-0">
       <div className="bg-white shadow rounded-md">
@@ -72,13 +78,7 @@ export default function ItemsList(props) {
                           listItem.progress_percent == 1 ? true : false
                         }
                         onChange={() => {
-                          const checkboxState = listItem.progress_percent == 1 ? 0 : 1;
-                          listsContext.updateItem(
-                            listItem.id,
-                            "progress_percent",
-                            checkboxState
-                          );
-                          listsContext.updateProgress(listItem)
+                          updateCheckbox(listItem);
                         }}
                       />
                     </div>
@@ -92,7 +92,8 @@ export default function ItemsList(props) {
                     <div className="min-w-0 flex-1"></div>
                   </div>
                 </li>
-                {listItem.itemType != "task" && listItem.progress_percent !== undefined ? (
+                {listItem.itemType != "task" &&
+                listItem.progress_percent !== undefined ? (
                   <ItemProgressBar percent={listItem.progress_percent * 100} />
                 ) : (
                   <></>

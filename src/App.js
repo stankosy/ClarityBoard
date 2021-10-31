@@ -3,7 +3,7 @@ import ItemsList from "./components/ItemsList";
 import DashboardTitle from "./components/DashboardTitle";
 import ListsContext from "./context/lists-context";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { MenuIcon } from "@heroicons/react/outline";
 
 const getLocalStorageList = (listType) => {
@@ -41,14 +41,18 @@ export default function App() {
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
 
+  console.log("App", itemsList);
+
   const updateItem = (itemId, param, value) => {
+    console.log("updating item", itemId, param, value);
     const itemIndex = itemsList.findIndex((obj) => obj.id == itemId);
     itemsList[itemIndex][param] = value;
     setItemsList((oldItemsList) => {
-      oldItemsList[itemIndex][param] = value;
-      return oldItemsList;
+      // oldItemsList[itemIndex][param] = value;
+      return [...oldItemsList];
     });
-    saveLocalStorageList("items", itemsList);
+    // saveLocalStorageList("items", itemsList);
+    // console.log("itemsList", itemsList);
   };
 
   const updateProgress = (item) => {
