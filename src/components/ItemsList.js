@@ -3,6 +3,7 @@ import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 import { useState, useContext } from "react/cjs/react.development";
 import ListsContext from "../context/lists-context";
 import ItemProgressBar from "./ItemProgressBar";
+import { Fragment } from "react/cjs/react.development";
 
 export default function ItemsList(props) {
   const [cardInputVisible, setCardInputVisible] = useState(false);
@@ -49,12 +50,11 @@ export default function ItemsList(props) {
           </div>
         </div>
 
-        <div className="shadow overflow-hidden ">
+        <div className="overflow-hidden ">
           <ul role="list" className="divide-y divide-gray-200">
             {props.itemsList.map((listItem) => (
-              <>
+              <Fragment key={listItem.id}>
                 <li
-                  key={listItem.id}
                   className={`relative flex items-start py-2 px-4 hover:bg-gray-50 ${
                     listItem.id ==
                     (props.listType == "condition"
@@ -98,7 +98,7 @@ export default function ItemsList(props) {
                 ) : (
                   <></>
                 )}
-              </>
+              </Fragment>
             ))}
             {cardInputVisible && (
               <NewListItem

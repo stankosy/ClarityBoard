@@ -3,33 +3,13 @@ import ItemsList from "./components/ItemsList";
 import DashboardTitle from "./components/DashboardTitle";
 import ListsContext from "./context/lists-context";
 import { useState } from "react";
-
-const getLocalStorageList = (listType) => {
-  return JSON.parse(localStorage.getItem(listType)) || [];
-};
-const getLocalStorageDict = (listType) => {
-  return JSON.parse(localStorage.getItem(listType)) || {};
-};
-
-const saveLocalStorageList = (listType, newList) => {
-  localStorage.setItem(listType, JSON.stringify(newList));
-};
-
-const updateSelectedRelationship = (parentId, childId, selectedItemsDict) => {
-  selectedItemsDict[`${parentId}`] = childId;
-  localStorage.setItem("selectedItems", JSON.stringify(selectedItemsDict));
-};
-
-const filterListItems = (itemsList, filterType, filterValue) => {
-  switch (filterType) {
-    case "parentId":
-      return itemsList.filter((i) => [filterValue].includes(i.parentId));
-    case "listType":
-      return itemsList.filter((i) => [filterValue].includes(i.itemType));
-    case "id":
-      return itemsList.filter((i) => [filterValue].includes(i.id));
-  }
-};
+import {
+  getLocalStorageList,
+  getLocalStorageDict,
+  saveLocalStorageList,
+  updateSelectedRelationship,
+  filterListItems,
+} from "./utils/helper-functions";
 
 export default function App() {
   let localStorageItemsList = getLocalStorageList("items");
@@ -39,7 +19,13 @@ export default function App() {
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
 
-  console.log("App", itemsList);
+  // MANIPULATION FUNCTIONS 
+  const addNewListItem = (newListItem) => {
+    setItemsList((oldItemsList) => {
+      return [...oldItemsList, newListItem];
+    });
+    saveLocalStorageList("items", [...localStorageItemsList, newListItem]);
+  };
 
   const updateItem = (itemId, param, value) => {
     console.log("updating item", itemId, param, value);
@@ -82,12 +68,24 @@ export default function App() {
     }
   };
 
-  const addNewListItem = (newListItem) => {
-    setItemsList((oldItemsList) => {
-      return [...oldItemsList, newListItem];
-    });
-    saveLocalStorageList("items", [...localStorageItemsList, newListItem]);
-    // updateProgress(newListItem); // causing issues right now
+  // SELECTION FUNCTIONS
+  const selectCondition = (id) => {
+    setSelectedCondition(id);
+    updateSelectedRelationship(
+      "index",
+      id,
+      localStorageSelectedItems
+    );
+    setSelectedSolution(localStorageSelectedItems[id]);
+  };
+
+  const selectSolution = (id) => {
+    setSelectedSolution(id);
+    updateSelectedRelationship(
+      selectedCondition,
+      id,
+      localStorageSelectedItems
+    );
   };
 
   return (
@@ -103,23 +101,8 @@ export default function App() {
                 addNewListItem: addNewListItem,
                 updateItem: updateItem,
                 updateProgress: updateProgress,
-                selectCondition: (id) => {
-                  setSelectedCondition(id);
-                  updateSelectedRelationship(
-                    "index",
-                    id,
-                    localStorageSelectedItems
-                  );
-                  setSelectedSolution(localStorageSelectedItems[id]);
-                },
-                selectSolution: (id) => {
-                  setSelectedSolution(id);
-                  updateSelectedRelationship(
-                    selectedCondition,
-                    id,
-                    localStorageSelectedItems
-                  );
-                },
+                selectCondition: selectCondition,
+                selectSolution: selectSolution,
                 selectedCondition: selectedCondition,
                 selectedSolution: selectedSolution,
               }}

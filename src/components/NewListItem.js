@@ -20,7 +20,7 @@ export default function NewListItem(props) {
       progress_percent: props.listType == "task" ? 0 : undefined
     });
 
-    // Select the created item
+    // Select the created list item
     if (props.listType == "condition") {
       listsContext.selectCondition(itemId);
     } else if (props.listType == "solution") {

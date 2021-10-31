@@ -1,10 +1,10 @@
 export default function ItemProgressBar(props) {
     return (
-        <div class="relative">
-        <div class="overflow-hidden h-1 text-xs flex   bg-purple-200">
+        <div className="relative">
+        <div className="overflow-hidden h-1 text-xs flex   bg-purple-200">
           <div
             style={{width: `${props.percent}%`}}
-            class="
+            className="
               shadow-none
               flex flex-col
               text-center
