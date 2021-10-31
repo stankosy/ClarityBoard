@@ -26,6 +26,8 @@ const filterListItems = (itemsList, filterType, filterValue) => {
       return itemsList.filter((i) => [filterValue].includes(i.parentId));
     case "listType":
       return itemsList.filter((i) => [filterValue].includes(i.itemType));
+    case "id":
+      return itemsList.filter((i) => [filterValue].includes(i.id));
   }
 };
 
@@ -37,14 +39,47 @@ export default function App() {
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
 
+  console.log("App", itemsList);
+
   const updateItem = (itemId, param, value) => {
+    console.log("updating item", itemId, param, value);
     const itemIndex = itemsList.findIndex((obj) => obj.id == itemId);
     itemsList[itemIndex][param] = value;
     setItemsList((oldItemsList) => {
-      oldItemsList[itemIndex][param] = value;
-      return oldItemsList;
+      // oldItemsList[itemIndex][param] = value;
+      return [...oldItemsList];
     });
-    saveLocalStorageList("items", itemsList);
+    // saveLocalStorageList("items", itemsList);
+    // console.log("itemsList", itemsList);
+  };
+
+  const updateProgress = (item) => {
+    while (item.parentId !== undefined) {
+      console.log("item", item);
+      console.log("itemsList", itemsList);
+
+      // get the children of the item's parent
+      let childrenItems = filterListItems(itemsList, "parentId", item.parentId);
+      console.log("childrenItems", childrenItems);
+
+      // calculate the avr progress
+      let progressItemsList = childrenItems.map(
+        (item) => item.progress_percent
+      );
+      progressItemsList = progressItemsList.filter((x) => x !== undefined);
+      console.log("progressItemsList", progressItemsList);
+
+      if (progressItemsList.length) {
+        let avr_progress =
+          progressItemsList.reduce((prev, curr) => prev + curr) /
+          progressItemsList.length;
+        console.log("avr_progress", avr_progress);
+
+        // update this parent and get it's parent
+        updateItem(item.parentId, "progress_percent", avr_progress);
+        item = filterListItems(itemsList, "id", item.parentId)[0];
+      }
+    }
   };
 
   const addNewListItem = (newListItem) => {
@@ -52,6 +87,7 @@ export default function App() {
       return [...oldItemsList, newListItem];
     });
     saveLocalStorageList("items", [...localStorageItemsList, newListItem]);
+    // updateProgress(newListItem); // causing issues right now
   };
 
   return (
@@ -60,12 +96,13 @@ export default function App() {
       <div className="md:pl-64 flex flex-col flex-1">
         <main className="flex-1">
           <div className="py-6">
-            <DashboardTitle title="# Hire a new Frontend Developer" />
+            <DashboardTitle title="Hire a new Frontend Developer" />
             <ListsContext.Provider
               value={{
                 itemsList: itemsList,
                 addNewListItem: addNewListItem,
                 updateItem: updateItem,
+                updateProgress: updateProgress,
                 selectCondition: (id) => {
                   setSelectedCondition(id);
                   updateSelectedRelationship(
