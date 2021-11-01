@@ -25,10 +25,10 @@ export default function ItemCard(props) {
   return (
     <div
       key={props.listItem.id}
-      className={`bg-white rounded shadow my-2 hover:bg-gray-50 ${
+      className={`bg-white rounded shadow my-2 hover:bg-purple-50 ${
         props.listItem.id ==
         (props.listItem.itemType == "condition" ? listsContext.selectedCondition : listsContext.selectedSolution)
-          ? " bg-gray-100"
+          ? "bg-purple-50"
           : ""
       }`}
       onClick={() => {
