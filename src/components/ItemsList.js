@@ -1,8 +1,8 @@
 import NewListItem from "./NewListItem";
 import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
-import { useState, useContext } from "react/cjs/react.development";
+import { useState, useContext, Fragment } from "react";
 import ListsContext from "../context/lists-context";
-import ItemProgressBar from "./ItemProgressBar";
+import ItemProgressBar from "./ui/ItemProgressBar";
 
 export default function ItemsList(props) {
   const [cardInputVisible, setCardInputVisible] = useState(false);
@@ -28,7 +28,7 @@ export default function ItemsList(props) {
   };
 
   return (
-    <div className="px-4 py-5 sm:px-0">
+    <div className="px-4 py-4 sm:px-0">
       <div className="bg-white shadow rounded-md">
         <div className=" px-4 py-2 border-b border-gray-200 sm:px-6 ">
           <div className="-ml-6 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
@@ -49,12 +49,11 @@ export default function ItemsList(props) {
           </div>
         </div>
 
-        <div className="shadow overflow-hidden ">
+        <div className="overflow-hidden ">
           <ul role="list" className="divide-y divide-gray-200">
             {props.itemsList.map((listItem) => (
-              <>
+              <Fragment key={listItem.id}>
                 <li
-                  key={listItem.id}
                   className={`relative flex items-start py-2 px-4 hover:bg-gray-50 ${
                     listItem.id ==
                     (props.listType == "condition"
@@ -98,7 +97,7 @@ export default function ItemsList(props) {
                 ) : (
                   <></>
                 )}
-              </>
+              </Fragment>
             ))}
             {cardInputVisible && (
               <NewListItem

@@ -1,35 +1,23 @@
-import NavigationBar from "./components/NavigationBar";
+import ObjectiveView from "./pages/ObjectiveView";
 import ItemsList from "./components/ItemsList";
-import DashboardTitle from "./components/DashboardTitle";
+import LandingPageView from "./pages/LandingPageView";
+import NavigationBar from "./components/NavigationBar";
 import ListsContext from "./context/lists-context";
 import { useState } from "react";
-
-const getLocalStorageList = (listType) => {
-  return JSON.parse(localStorage.getItem(listType)) || [];
-};
-const getLocalStorageDict = (listType) => {
-  return JSON.parse(localStorage.getItem(listType)) || {};
-};
-
-const saveLocalStorageList = (listType, newList) => {
-  localStorage.setItem(listType, JSON.stringify(newList));
-};
-
-const updateSelectedRelationship = (parentId, childId, selectedItemsDict) => {
-  selectedItemsDict[`${parentId}`] = childId;
-  localStorage.setItem("selectedItems", JSON.stringify(selectedItemsDict));
-};
-
-const filterListItems = (itemsList, filterType, filterValue) => {
-  switch (filterType) {
-    case "parentId":
-      return itemsList.filter((i) => [filterValue].includes(i.parentId));
-    case "listType":
-      return itemsList.filter((i) => [filterValue].includes(i.itemType));
-    case "id":
-      return itemsList.filter((i) => [filterValue].includes(i.id));
-  }
-};
+import {
+  getLocalStorageList,
+  getLocalStorageDict,
+  saveLocalStorageList,
+  updateSelectedRelationship,
+  filterListItems,
+} from "./utils/helper-functions";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import ObjectivesList from "./pages/ObjectivesList";
 
 export default function App() {
   let localStorageItemsList = getLocalStorageList("items");
@@ -39,7 +27,15 @@ export default function App() {
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
 
-  console.log("App", itemsList);
+
+
+  // MANIPULATION FUNCTIONS
+  const addNewListItem = (newListItem) => {
+    setItemsList((oldItemsList) => {
+      return [...oldItemsList, newListItem];
+    });
+    saveLocalStorageList("items", [...localStorageItemsList, newListItem]);
+  };
 
   const updateItem = (itemId, param, value) => {
     console.log("updating item", itemId, param, value);
@@ -82,81 +78,88 @@ export default function App() {
     }
   };
 
-  const addNewListItem = (newListItem) => {
-    setItemsList((oldItemsList) => {
-      return [...oldItemsList, newListItem];
-    });
-    saveLocalStorageList("items", [...localStorageItemsList, newListItem]);
-    // updateProgress(newListItem); // causing issues right now
+  // SELECTION FUNCTIONS
+  const selectCondition = (id) => {
+    setSelectedCondition(id);
+    updateSelectedRelationship("index", id, localStorageSelectedItems);
+    setSelectedSolution(localStorageSelectedItems[id]);
   };
 
+  const selectSolution = (id) => {
+    setSelectedSolution(id);
+    updateSelectedRelationship(
+      selectedCondition,
+      id,
+      localStorageSelectedItems
+    );
+  };
+
+  const navbar_itemsList = [
+    {
+      id: "1",
+      title: "title 1",
+      href: "objective"
+    },
+    {
+      id: "1",
+      title: "title 1",
+      href: "objective"
+    }
+  ]
+
   return (
-    <div>
-      <NavigationBar />
-      <div className="md:pl-64 flex flex-col flex-1">
-        <main className="flex-1">
-          <div className="py-6">
-            <DashboardTitle title="Hire a new Frontend Developer" />
-            <ListsContext.Provider
-              value={{
-                itemsList: itemsList,
-                addNewListItem: addNewListItem,
-                updateItem: updateItem,
-                updateProgress: updateProgress,
-                selectCondition: (id) => {
-                  setSelectedCondition(id);
-                  updateSelectedRelationship(
-                    "index",
-                    id,
-                    localStorageSelectedItems
-                  );
-                  setSelectedSolution(localStorageSelectedItems[id]);
-                },
-                selectSolution: (id) => {
-                  setSelectedSolution(id);
-                  updateSelectedRelationship(
-                    selectedCondition,
-                    id,
-                    localStorageSelectedItems
-                  );
-                },
-                selectedCondition: selectedCondition,
-                selectedSolution: selectedSolution,
-              }}
-            >
-              <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
-                <ItemsList
-                  listType="condition"
-                  itemsList={filterListItems(
-                    itemsList,
-                    "listType",
-                    "condition"
-                  )}
-                />
-                <ItemsList
-                  listType="solution"
-                  parentId={selectedCondition}
-                  itemsList={filterListItems(
-                    itemsList,
-                    "parentId",
-                    selectedCondition
-                  )}
-                />
-                <ItemsList
-                  listType="task"
-                  parentId={selectedSolution}
-                  itemsList={filterListItems(
-                    itemsList,
-                    "parentId",
-                    selectedSolution
-                  )}
-                  includeCheckbox={true}
-                />
-              </div>
-            </ListsContext.Provider>
-          </div>
-        </main>
-      </div>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          <Redirect to="/objective" />
+          <LandingPageView title="Welcome page!" />
+        </Route>
+        <ListsContext.Provider
+          value={{
+            itemsList: itemsList,
+            addNewListItem: addNewListItem,
+            updateItem: updateItem,
+            updateProgress: updateProgress,
+            selectCondition: selectCondition,
+            selectSolution: selectSolution,
+            selectedCondition: selectedCondition,
+            selectedSolution: selectedSolution,
+          }}
+        >
+          <NavigationBar listType="space" itemsList={filterListItems(itemsList, "listType", "space")} />
+          <Route path="/dashboard">
+            <ObjectivesList />
+          </Route>
+          <Route path="/objective">
+            {/* <NavigationBar /> */}
+            <ObjectiveView title="Hire a new Frontend Developer">
+              <ItemsList
+                listType="condition"
+                itemsList={filterListItems(itemsList, "listType", "condition")}
+              />
+              <ItemsList
+                listType="solution"
+                parentId={selectedCondition}
+                itemsList={filterListItems(
+                  itemsList,
+                  "parentId",
+                  selectedCondition
+                )}
+              />
+              <ItemsList
+                listType="task"
+                parentId={selectedSolution}
+                itemsList={filterListItems(
+                  itemsList,
+                  "parentId",
+                  selectedSolution
+                )}
+                includeCheckbox={true}
+              />
+            </ObjectiveView>
+          </Route>
+        </ListsContext.Provider>
+      </Switch>
+    </Router>
   );
 }
