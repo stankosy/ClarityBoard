@@ -107,7 +107,8 @@ export default function App() {
         >
           <Route path="/dashboard">
             <NavigationBar />
-            <ObjectivesList />
+            <LandingPageView title="Objectives list will come here.." />
+
           </Route>
           <Route path="/objective">
             <NavigationBar />

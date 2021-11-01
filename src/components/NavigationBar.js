@@ -4,16 +4,17 @@ import {
   EmojiHappyIcon,
   UserCircleIcon,
   UserGroupIcon,
-} from '@heroicons/react/outline'
-import { NavLink } from 'react-router-dom';
+} from "@heroicons/react/outline";
+import { NavLink } from "react-router-dom";
+import { EditText } from "react-edit-text";
 
 const navigation = [
-  { name: 'Mental', href: '/mental', icon: CloudIcon, current: true },
-  { name: 'Body', href: '/body', icon: UserCircleIcon, current: false },
-  { name: 'Finance', href: '#', icon: CashIcon, current: false },
-  { name: 'Social', href: '#', icon: UserGroupIcon, current: false },
-  { name: 'Mom', href: '#', icon: EmojiHappyIcon, current: false },
-]
+  { name: "Mental", href: "/mental", icon: CloudIcon, current: true },
+  { name: "Body", href: "/body", icon: UserCircleIcon, current: false },
+  { name: "Finance", href: "#", icon: CashIcon, current: false },
+  { name: "Social", href: "#", icon: UserGroupIcon, current: false },
+  { name: "Mom", href: "#", icon: EmojiHappyIcon, current: false },
+];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -26,7 +27,9 @@ export default function NavigationBar() {
       <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white">
         <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
           <div className="flex items-center flex-shrink-0 px-4">
-            <h1 className="text-3xl font-bold leading-tight text-gray-900">ClarityBoard</h1>
+            <h1 className="text-3xl font-bold leading-tight text-gray-900">
+              ClarityBoard
+            </h1>
           </div>
           <nav className="mt-5 flex-1 px-2 bg-white space-y-1">
             {navigation.map((item) => (
@@ -52,6 +55,15 @@ export default function NavigationBar() {
                 {item.name}
               </NavLink>
             ))}
+            <div style={{ whiteSpace: "nowrap" }}>
+              <EditText
+                name="menu"
+                type="text"
+                style={{ width: "200px" }}
+                placeholder="+ ADD NEW"
+                inline
+              />
+            </div>
           </nav>
         </div>
       </div>
