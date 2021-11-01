@@ -11,7 +11,12 @@ import {
   updateSelectedRelationship,
   filterListItems,
 } from "./utils/helper-functions";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import ObjectivesList from "./pages/ObjectivesList";
 
 export default function App() {
@@ -87,10 +92,24 @@ export default function App() {
     );
   };
 
+  const navbar_itemsList = [
+    {
+      id: "1",
+      title: "title 1",
+      href: "objective"
+    },
+    {
+      id: "1",
+      title: "title 1",
+      href: "objective"
+    }
+  ]
+
   return (
     <Router>
       <Switch>
         <Route path="/" exact>
+          <Redirect to="/objective" />
           <LandingPageView title="Welcome page!" />
         </Route>
         <ListsContext.Provider
@@ -105,13 +124,12 @@ export default function App() {
             selectedSolution: selectedSolution,
           }}
         >
+          <NavigationBar listType="space" itemsList={navbar_itemsList} />
           <Route path="/dashboard">
-            <NavigationBar />
-            <LandingPageView title="Objectives list will come here.." />
-
+            <ObjectivesList />
           </Route>
           <Route path="/objective">
-            <NavigationBar />
+            {/* <NavigationBar /> */}
             <ObjectiveView title="Hire a new Frontend Developer">
               <ItemsList
                 listType="condition"
