@@ -1,4 +1,5 @@
 import ObjectiveView from "./pages/ObjectiveView";
+import ItemsList from "./components/ItemsList";
 import LandingPageView from "./pages/LandingPageView";
 import NavigationBar from "./components/NavigationBar";
 import ListsContext from "./context/lists-context";
@@ -11,6 +12,7 @@ import {
   filterListItems,
 } from "./utils/helper-functions";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import ObjectivesList from "./pages/ObjectivesList";
 
 export default function App() {
   let localStorageItemsList = getLocalStorageList("items");
@@ -105,11 +107,35 @@ export default function App() {
         >
           <Route path="/dashboard">
             <NavigationBar />
-            <LandingPageView title="Dashboard page" />
+            <ObjectivesList />
           </Route>
           <Route path="/objective">
             <NavigationBar />
-            <ObjectiveView />
+            <ObjectiveView title="Hire a new Frontend Developer">
+              <ItemsList
+                listType="condition"
+                itemsList={filterListItems(itemsList, "listType", "condition")}
+              />
+              <ItemsList
+                listType="solution"
+                parentId={selectedCondition}
+                itemsList={filterListItems(
+                  itemsList,
+                  "parentId",
+                  selectedCondition
+                )}
+              />
+              <ItemsList
+                listType="task"
+                parentId={selectedSolution}
+                itemsList={filterListItems(
+                  itemsList,
+                  "parentId",
+                  selectedSolution
+                )}
+                includeCheckbox={true}
+              />
+            </ObjectiveView>
           </Route>
         </ListsContext.Provider>
       </Switch>
