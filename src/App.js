@@ -27,8 +27,6 @@ export default function App() {
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
 
-
-
   // MANIPULATION FUNCTIONS
   const addNewListItem = (newListItem) => {
     setItemsList((oldItemsList) => {
@@ -60,7 +58,7 @@ export default function App() {
 
       // calculate the avr progress
       let progressItemsList = childrenItems.map(
-        (item) => item.progress_percent
+        (item) => item.progress_percentage
       );
       progressItemsList = progressItemsList.filter((x) => x !== undefined);
       console.log("progressItemsList", progressItemsList);
@@ -72,7 +70,7 @@ export default function App() {
         console.log("avr_progress", avr_progress);
 
         // update this parent and get it's parent
-        updateItem(item.parentId, "progress_percent", avr_progress);
+        updateItem(item.parentId, "progress_percentage", avr_progress);
         item = filterListItems(itemsList, "id", item.parentId)[0];
       }
     }
@@ -94,19 +92,6 @@ export default function App() {
     );
   };
 
-  const navbar_itemsList = [
-    {
-      id: "1",
-      title: "title 1",
-      href: "objective"
-    },
-    {
-      id: "1",
-      title: "title 1",
-      href: "objective"
-    }
-  ]
-
   return (
     <Router>
       <Switch>
@@ -126,9 +111,17 @@ export default function App() {
             selectedSolution: selectedSolution,
           }}
         >
-          <NavigationBar listType="space" itemsList={filterListItems(itemsList, "listType", "space")} />
+          <NavigationBar
+            listType="space"
+            itemsList={filterListItems(itemsList, "listType", "space")}
+          />
           <Route path="/dashboard">
-            <ObjectivesList />
+            <ObjectivesList title="Upcoming Objectives">
+              <ItemsList
+                listType="objective"
+                itemsList={filterListItems(itemsList, "listType", "objective")}
+              />
+            </ObjectivesList>
           </Route>
           <Route path="/objective">
             {/* <NavigationBar /> */}

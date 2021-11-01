@@ -22,7 +22,7 @@ export default function NavigationBar(props) {
         parentId: null,
         itemType: props.listType,
         title: value,
-        // progress_percent: ,
+        // progress_percentage: ,
       });
       setItemText("");
     }

@@ -17,7 +17,7 @@ export default function NewListItem(props) {
       parentId: props.parentId,
       itemType: props.listType,
       title: listItemContent.current.value,
-      progress_percent: props.listType == "task" ? 0 : undefined
+      progress_percentage: props.listType == "task" ? 0 : undefined
     });
 
     // Select the created list item

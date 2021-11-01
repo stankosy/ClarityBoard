@@ -22,8 +22,8 @@ export default function ItemsList(props) {
   };
 
   const updateCheckbox = (listItem) => {
-    const checkboxState = listItem.progress_percent == 1 ? 0 : 1;
-    listsContext.updateItem(listItem.id, "progress_percent", checkboxState);
+    const checkboxState = listItem.progress_percentage == 1 ? 0 : 1;
+    listsContext.updateItem(listItem.id, "progress_percentage", checkboxState);
     listsContext.updateProgress(listItem);
   };
 
@@ -74,7 +74,7 @@ export default function ItemsList(props) {
                         type="checkbox"
                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                         defaultChecked={
-                          listItem.progress_percent == 1 ? true : false
+                          listItem.progress_percentage == 1 ? true : false
                         }
                         onChange={() => {
                           updateCheckbox(listItem);
@@ -92,8 +92,8 @@ export default function ItemsList(props) {
                   </div>
                 </li>
                 {listItem.itemType != "task" &&
-                listItem.progress_percent !== undefined ? (
-                  <ItemProgressBar percent={listItem.progress_percent * 100} />
+                listItem.progress_percentage !== undefined ? (
+                  <ItemProgressBar percent={listItem.progress_percentage * 100} />
                 ) : (
                   <></>
                 )}
