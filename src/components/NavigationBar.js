@@ -5,10 +5,11 @@ import {
   UserCircleIcon,
   UserGroupIcon,
 } from '@heroicons/react/outline'
+import { NavLink } from 'react-router-dom';
 
 const navigation = [
-  { name: 'Mental', href: '#', icon: CloudIcon, current: true },
-  { name: 'Body', href: '#', icon: UserCircleIcon, current: false },
+  { name: 'Mental', href: '/mental', icon: CloudIcon, current: true },
+  { name: 'Body', href: '/body', icon: UserCircleIcon, current: false },
   { name: 'Finance', href: '#', icon: CashIcon, current: false },
   { name: 'Social', href: '#', icon: UserGroupIcon, current: false },
   { name: 'Mom', href: '#', icon: EmojiHappyIcon, current: false },
@@ -29,9 +30,9 @@ export default function NavigationBar() {
           </div>
           <nav className="mt-5 flex-1 px-2 bg-white space-y-1">
             {navigation.map((item) => (
-              <a
+              <NavLink
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className={classNames(
                   item.current
                     ? "bg-gray-100 text-gray-900"
@@ -49,7 +50,7 @@ export default function NavigationBar() {
                   aria-hidden="true"
                 />
                 {item.name}
-              </a>
+              </NavLink>
             ))}
           </nav>
         </div>

@@ -1,6 +1,6 @@
+import ObjectiveView from "./pages/ObjectiveView";
+import LandingPageView from "./pages/LandingPageView";
 import NavigationBar from "./components/NavigationBar";
-import ItemsList from "./components/ItemsList";
-import DashboardTitle from "./components/DashboardTitle";
 import ListsContext from "./context/lists-context";
 import { useState } from "react";
 import {
@@ -10,6 +10,7 @@ import {
   updateSelectedRelationship,
   filterListItems,
 } from "./utils/helper-functions";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 export default function App() {
   let localStorageItemsList = getLocalStorageList("items");
@@ -19,7 +20,7 @@ export default function App() {
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
 
-  // MANIPULATION FUNCTIONS 
+  // MANIPULATION FUNCTIONS
   const addNewListItem = (newListItem) => {
     setItemsList((oldItemsList) => {
       return [...oldItemsList, newListItem];
@@ -71,11 +72,7 @@ export default function App() {
   // SELECTION FUNCTIONS
   const selectCondition = (id) => {
     setSelectedCondition(id);
-    updateSelectedRelationship(
-      "index",
-      id,
-      localStorageSelectedItems
-    );
+    updateSelectedRelationship("index", id, localStorageSelectedItems);
     setSelectedSolution(localStorageSelectedItems[id]);
   };
 
@@ -89,57 +86,33 @@ export default function App() {
   };
 
   return (
-    <div>
-      <NavigationBar />
-      <div className="md:pl-64 flex flex-col flex-1">
-        <main className="flex-1">
-          <div className="py-6">
-            <DashboardTitle title="Hire a new Frontend Developer" />
-            <ListsContext.Provider
-              value={{
-                itemsList: itemsList,
-                addNewListItem: addNewListItem,
-                updateItem: updateItem,
-                updateProgress: updateProgress,
-                selectCondition: selectCondition,
-                selectSolution: selectSolution,
-                selectedCondition: selectedCondition,
-                selectedSolution: selectedSolution,
-              }}
-            >
-              <div className="mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-4">
-                <ItemsList
-                  listType="condition"
-                  itemsList={filterListItems(
-                    itemsList,
-                    "listType",
-                    "condition"
-                  )}
-                />
-                <ItemsList
-                  listType="solution"
-                  parentId={selectedCondition}
-                  itemsList={filterListItems(
-                    itemsList,
-                    "parentId",
-                    selectedCondition
-                  )}
-                />
-                <ItemsList
-                  listType="task"
-                  parentId={selectedSolution}
-                  itemsList={filterListItems(
-                    itemsList,
-                    "parentId",
-                    selectedSolution
-                  )}
-                  includeCheckbox={true}
-                />
-              </div>
-            </ListsContext.Provider>
-          </div>
-        </main>
-      </div>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          <LandingPageView title="Welcome page!" />
+        </Route>
+        <ListsContext.Provider
+          value={{
+            itemsList: itemsList,
+            addNewListItem: addNewListItem,
+            updateItem: updateItem,
+            updateProgress: updateProgress,
+            selectCondition: selectCondition,
+            selectSolution: selectSolution,
+            selectedCondition: selectedCondition,
+            selectedSolution: selectedSolution,
+          }}
+        >
+          <Route path="/dashboard">
+            <NavigationBar />
+            <LandingPageView title="Dashboard page" />
+          </Route>
+          <Route path="/objective">
+            <NavigationBar />
+            <ObjectiveView />
+          </Route>
+        </ListsContext.Provider>
+      </Switch>
+    </Router>
   );
 }

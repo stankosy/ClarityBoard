@@ -10,7 +10,11 @@ export const saveLocalStorageList = (listType, newList) => {
   localStorage.setItem(listType, JSON.stringify(newList));
 };
 
-export const updateSelectedRelationship = (parentId, childId, selectedItemsDict) => {
+export const updateSelectedRelationship = (
+  parentId,
+  childId,
+  selectedItemsDict
+) => {
   selectedItemsDict[`${parentId}`] = childId;
   localStorage.setItem("selectedItems", JSON.stringify(selectedItemsDict));
 };
