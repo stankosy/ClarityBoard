@@ -27,6 +27,8 @@ export default function App() {
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
 
+
+
   // MANIPULATION FUNCTIONS
   const addNewListItem = (newListItem) => {
     setItemsList((oldItemsList) => {
@@ -124,7 +126,7 @@ export default function App() {
             selectedSolution: selectedSolution,
           }}
         >
-          <NavigationBar listType="space" itemsList={navbar_itemsList} />
+          <NavigationBar listType="space" itemsList={filterListItems(itemsList, "listType", "space")} />
           <Route path="/dashboard">
             <ObjectivesList />
           </Route>

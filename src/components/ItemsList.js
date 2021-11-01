@@ -1,9 +1,8 @@
 import NewListItem from "./NewListItem";
 import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
-import { useState, useContext } from "react/cjs/react.development";
+import { useState, useContext, Fragment } from "react";
 import ListsContext from "../context/lists-context";
 import ItemProgressBar from "./ui/ItemProgressBar";
-import { Fragment } from "react/cjs/react.development";
 
 export default function ItemsList(props) {
   const [cardInputVisible, setCardInputVisible] = useState(false);

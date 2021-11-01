@@ -1,11 +1,33 @@
 import { NavLink } from "react-router-dom";
 import { EditText } from "react-edit-text";
+import { useState, useContext } from "react";
+import ListsContext from "../context/lists-context";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function NavigationBar(props) {
+  const listsContext = useContext(ListsContext);
+
+  const [itemText, setItemText] = useState("");
+
+  const updateMenuInput = ({ name, value, previousValue }) => {
+    // Create new item
+    if (previousValue === "") {
+      const itemId = Date.now();
+      listsContext.addNewListItem({
+        id: itemId,
+        href: `${itemId}`,
+        parentId: null,
+        itemType: props.listType,
+        title: value,
+        // progress_percent: ,
+      });
+      setItemText("");
+    }
+  };
+
   return (
     <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
       {/* Sidebar component, swap this element with another sidebar if you like */}
@@ -17,6 +39,7 @@ export default function NavigationBar(props) {
             </h1>
           </div>
           <nav className="mt-5 flex-1 px-2 bg-white space-y-1">
+            <h2 className="px-2">HEADSPACES</h2>
             {props.itemsList.map((item) => (
               <NavLink
                 key={item.id}
@@ -36,7 +59,7 @@ export default function NavigationBar(props) {
                 name="new-space"
                 type="text"
                 // style={{ width: "200px" }}
-                placeholder="+ ADD NEW"
+                placeholder="+ ADD NEW HEADSPACE"
                 inline
                 className={classNames(
                   true
@@ -44,6 +67,9 @@ export default function NavigationBar(props) {
                     : "text-gray-300 hover:bg-gray-50 hover:text-gray-900",
                   "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                 )}
+                value={itemText}
+                onChange={setItemText}
+                onSave={updateMenuInput}
               />
             </div>
           </nav>
