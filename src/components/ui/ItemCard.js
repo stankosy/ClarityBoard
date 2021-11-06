@@ -1,6 +1,7 @@
 import ItemProgressBar from "./ItemProgressBar";
 import ListsContext from "../../context/lists-context";
 import { useContext } from "react";
+import CardOption from "./CardOption";
 
 export default function ItemCard(props) {
   const listsContext = useContext(ListsContext);
@@ -36,7 +37,7 @@ export default function ItemCard(props) {
         }
       }}
     >
-      <div className="px-4 py-2 relative flex items-start">
+      <div className="px-4 py-2 relative flex justify-between">
         {/* Checkbox */}
         {includeCheckbox && (
           <div className="flex items-center h-6 mr-4">
@@ -53,6 +54,9 @@ export default function ItemCard(props) {
 
         {/* Card Content */}
         {props.children}
+
+        {/* Card Options */}
+          <CardOption />
       </div>
 
       {/* Progress Bar */}
