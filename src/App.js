@@ -40,7 +40,7 @@ export default function App() {
   }, [newItem]);
 
   const updateItem = (itemId, param, value) => {
-    console.log("updating item", itemId, param, value);
+    // console.log("updating item", itemId, param, value);
     const itemIndex = itemsList.findIndex((obj) => obj.id == itemId);
     itemsList[itemIndex][param] = value;
     setItemsList((oldItemsList) => {
@@ -53,27 +53,27 @@ export default function App() {
 
   const updateProgress = (item) => {
     while (item.parentId !== undefined) {
-      console.log("__________");
-      console.log("item", item);
-      console.log("itemsList", itemsList);
+      // console.log("__________");
+      // console.log("item", item);
+      // console.log("itemsList", itemsList);
 
       // get the children of the item's parent
       let childrenItems = filterListItems(itemsList, "parentId", item.parentId);
-      console.log("childrenItems", childrenItems);
+      // console.log("childrenItems", childrenItems);
 
       // calculate the avr progress
       let progressItemsList = childrenItems.map((item) => item.progress_percentage);
       progressItemsList = progressItemsList.filter((x) => x !== undefined);
-      console.log("progressItemsList", progressItemsList);
+      // console.log("progressItemsList", progressItemsList);
 
       if (progressItemsList.length) {
         let avr_progress = progressItemsList.reduce((prev, curr) => prev + curr) / progressItemsList.length;
-        console.log("avr_progress", avr_progress);
+        // console.log("avr_progress", avr_progress);
 
         // update this parent and get it's parent
         updateItem(item.parentId, "progress_percentage", avr_progress);
         item = filterListItems(itemsList, "id", item.parentId)[0];
-        console.log("^^^^^^^^^^^^");
+        // console.log("^^^^^^^^^^^^");
       }
     }
   };
