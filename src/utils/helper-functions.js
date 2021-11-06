@@ -20,6 +20,9 @@ export const updateSelectedRelationship = (
 };
 
 export const filterListItems = (itemsList, filterType, filterValue) => {
+  if (filterValue == undefined) {
+    return []
+  }
   switch (filterType) {
     case "parentId":
       return itemsList.filter((i) => [filterValue].includes(i.parentId));

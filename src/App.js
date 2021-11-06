@@ -3,7 +3,7 @@ import ItemsList from "./components/ItemsList";
 import LandingPageView from "./pages/LandingPageView";
 import NavigationBar from "./components/NavigationBar";
 import ListsContext from "./context/lists-context";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   getLocalStorageList,
   getLocalStorageDict,
@@ -11,12 +11,7 @@ import {
   updateSelectedRelationship,
   filterListItems,
 } from "./utils/helper-functions";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import ObjectivesList from "./pages/ObjectivesList";
 
 export default function App() {
@@ -26,6 +21,7 @@ export default function App() {
   const [itemsList, setItemsList] = useState(localStorageItemsList);
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
+  const [newItem, setNewItem] = useState(null);
 
   // MANIPULATION FUNCTIONS
   const addNewListItem = (newListItem) => {
@@ -33,10 +29,18 @@ export default function App() {
       return [...oldItemsList, newListItem];
     });
     saveLocalStorageList("items", [...localStorageItemsList, newListItem]);
+    setNewItem(newListItem); // Setting new item state to trigger updateProgress
   };
 
+  // Updates the progress when new task has been added to the list
+  useEffect(() => {
+    if (newItem != null && newItem.itemType === "task") {
+      updateProgress(newItem);
+    }
+  }, [newItem]);
+
   const updateItem = (itemId, param, value) => {
-    console.log("updating item", itemId, param, value);
+    // console.log("updating item", itemId, param, value);
     const itemIndex = itemsList.findIndex((obj) => obj.id == itemId);
     itemsList[itemIndex][param] = value;
     setItemsList((oldItemsList) => {
@@ -49,29 +53,27 @@ export default function App() {
 
   const updateProgress = (item) => {
     while (item.parentId !== undefined) {
-      console.log("item", item);
-      console.log("itemsList", itemsList);
+      // console.log("__________");
+      // console.log("item", item);
+      // console.log("itemsList", itemsList);
 
       // get the children of the item's parent
       let childrenItems = filterListItems(itemsList, "parentId", item.parentId);
-      console.log("childrenItems", childrenItems);
+      // console.log("childrenItems", childrenItems);
 
       // calculate the avr progress
-      let progressItemsList = childrenItems.map(
-        (item) => item.progress_percentage
-      );
+      let progressItemsList = childrenItems.map((item) => item.progress_percentage);
       progressItemsList = progressItemsList.filter((x) => x !== undefined);
-      console.log("progressItemsList", progressItemsList);
+      // console.log("progressItemsList", progressItemsList);
 
       if (progressItemsList.length) {
-        let avr_progress =
-          progressItemsList.reduce((prev, curr) => prev + curr) /
-          progressItemsList.length;
-        console.log("avr_progress", avr_progress);
+        let avr_progress = progressItemsList.reduce((prev, curr) => prev + curr) / progressItemsList.length;
+        // console.log("avr_progress", avr_progress);
 
         // update this parent and get it's parent
         updateItem(item.parentId, "progress_percentage", avr_progress);
         item = filterListItems(itemsList, "id", item.parentId)[0];
+        // console.log("^^^^^^^^^^^^");
       }
     }
   };
@@ -85,11 +87,7 @@ export default function App() {
 
   const selectSolution = (id) => {
     setSelectedSolution(id);
-    updateSelectedRelationship(
-      selectedCondition,
-      id,
-      localStorageSelectedItems
-    );
+    updateSelectedRelationship(selectedCondition, id, localStorageSelectedItems);
   };
 
   return (
@@ -102,6 +100,7 @@ export default function App() {
         <ListsContext.Provider
           value={{
             itemsList: itemsList,
+            newItem: newItem,
             addNewListItem: addNewListItem,
             updateItem: updateItem,
             updateProgress: updateProgress,
@@ -111,42 +110,25 @@ export default function App() {
             selectedSolution: selectedSolution,
           }}
         >
-          <NavigationBar
-            listType="space"
-            itemsList={filterListItems(itemsList, "listType", "space")}
-          />
+          <NavigationBar listType="space" itemsList={filterListItems(itemsList, "listType", "space")} />
           <Route path="/dashboard">
             <ObjectivesList title="Upcoming Objectives">
-              <ItemsList
-                listType="objective"
-                itemsList={filterListItems(itemsList, "listType", "objective")}
-              />
+              <ItemsList listType="objective" itemsList={filterListItems(itemsList, "listType", "objective")} />
             </ObjectivesList>
           </Route>
           <Route path="/objective">
             {/* <NavigationBar /> */}
             <ObjectiveView title="Hire a new Frontend Developer">
-              <ItemsList
-                listType="condition"
-                itemsList={filterListItems(itemsList, "listType", "condition")}
-              />
+              <ItemsList listType="condition" itemsList={filterListItems(itemsList, "listType", "condition")} />
               <ItemsList
                 listType="solution"
                 parentId={selectedCondition}
-                itemsList={filterListItems(
-                  itemsList,
-                  "parentId",
-                  selectedCondition
-                )}
+                itemsList={filterListItems(itemsList, "parentId", selectedCondition)}
               />
               <ItemsList
                 listType="task"
                 parentId={selectedSolution}
-                itemsList={filterListItems(
-                  itemsList,
-                  "parentId",
-                  selectedSolution
-                )}
+                itemsList={filterListItems(itemsList, "parentId", selectedSolution)}
                 includeCheckbox={true}
               />
             </ObjectiveView>
