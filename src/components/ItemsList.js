@@ -16,20 +16,23 @@ export default function ItemsList(props) {
   const updateMenuInput = ({ name, value, previousValue }) => {
     // Create new item
     if (previousValue === "") {
-      const newItemId = Date.now();
-      listsContext.addNewListItem({
-        id: newItemId,
+      const newListItem = {
+        id: Date.now(),
         parentId: props.parentId,
         itemType: props.listType,
         title: value,
         // progress_percentage: ,
-      });
+      };
+      if (newListItem.itemType == "task") {
+        newListItem.progress_percentage = 0
+      }
+      listsContext.addNewListItem(newListItem);
 
       // Select the created list item
-      if (props.listType == "condition") {
-        listsContext.selectCondition(newItemId);
-      } else if (props.listType == "solution") {
-        listsContext.selectSolution(newItemId);
+      if (newListItem.itemType == "condition") {
+        listsContext.selectCondition(newListItem.id);
+      } else if (newListItem.itemType == "solution") {
+        listsContext.selectSolution(newListItem.id);
       }
 
       setItemText("");

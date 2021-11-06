@@ -32,7 +32,6 @@ export default function ItemCard(props) {
           : ""
       }`}
       onClick={() => {
-        console.log("clicked");
         if (props.listItem.itemType != "task") {
           setSelectedItem(props.listItem);
         }
