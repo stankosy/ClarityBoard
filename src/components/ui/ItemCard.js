@@ -56,7 +56,7 @@ export default function ItemCard(props) {
         {props.children}
 
         {/* Card Options */}
-          <CardOption />
+        <CardOption listItem={props.listItem} />
       </div>
 
       {/* Progress Bar */}
