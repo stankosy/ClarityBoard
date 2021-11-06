@@ -1,30 +1,35 @@
 import Card from "./ui/Card";
 import ItemCard from "./ui/ItemCard";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import ListsContext from "../context/lists-context";
-import { EditText } from "react-edit-text";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+// import { EditText } from "react-edit-text";
+import EdiText from "react-editext";
 
 export default function ItemsList(props) {
   const listsContext = useContext(ListsContext);
+  const inputDefaultText = "+ ADD NEW";
+  const [itemText, setItemText] = useState(inputDefaultText);
 
-  const [itemText, setItemText] = useState("");
+  // Set focus on recently added list
+  useEffect(() => {
+    // if newItem's type is matching this list's type, set the focus to the input field
+    if (listsContext.newItem !== null && listsContext.newItem.itemType === props.listType) {
+      const list_dom = document.getElementById(`${props.listType}_list`);
+      list_dom.querySelector('[editext="view"]').click(); 
+    }
+  }, [listsContext.newItem]);
 
-  const updateMenuInput = ({ name, value, previousValue }) => {
+  const saveInput = (newValue) => {
     // Create new item
-    if (previousValue === "") {
+    if (newValue !== "" && newValue !== inputDefaultText) {
       const newListItem = {
         id: Date.now(),
         parentId: props.parentId,
         itemType: props.listType,
-        title: value,
-        // progress_percentage: ,
+        title: newValue,
       };
       if (newListItem.itemType == "task") {
-        newListItem.progress_percentage = 0
+        newListItem["progress_percentage"] = 0;
       }
       listsContext.addNewListItem(newListItem);
 
@@ -34,13 +39,13 @@ export default function ItemsList(props) {
       } else if (newListItem.itemType == "solution") {
         listsContext.selectSolution(newListItem.id);
       }
-
-      setItemText("");
     }
+    // setting back to default text
+    setItemText(inputDefaultText);
   };
 
   return (
-    <div className="py-2">
+    <div id={`${props.listType}_list`} className="py-2">
       <Card>
         <h3 className="capitalize font-bold text-lg leading-6 font-medium text-gray-900">{props.listType + "s"}</h3>
       </Card>
@@ -54,19 +59,29 @@ export default function ItemsList(props) {
       </div>
 
       <div>
-        <EditText
-          name={props.listType}
+        <EdiText
+          id={`${props.listType}_inputField`}
           type="text"
-          style={{ width: "100%" }}
-          placeholder="+ ADD NEW"
-          inline
-          className={classNames(
-            true ? "bg-gray-100 text-gray-500" : "text-gray-300 hover:bg-gray-50 hover:text-gray-900",
-            "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-          )}
           value={itemText}
-          onChange={setItemText}
-          onSave={updateMenuInput}
+          editOnViewClick={true}
+          // startEditingOnFocus={true}
+          submitOnUnfocus={true}
+          saveButtonClassName="invisible"
+          cancelButtonClassName="invisible"
+          editButtonClassName="invisible"
+          onEditingStart={() => {
+            setItemText("");
+          }}
+          onCancel={() => {
+            setItemText(inputDefaultText);
+          }}
+          cancelOnEscape={true}
+          submitOnEnter={true}
+          onSave={saveInput}
+          inputProps={{
+            style: { width: "100%" },
+          }}
+
         />
       </div>
     </div>

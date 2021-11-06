@@ -100,6 +100,7 @@ export default function App() {
         <ListsContext.Provider
           value={{
             itemsList: itemsList,
+            newItem: newItem,
             addNewListItem: addNewListItem,
             updateItem: updateItem,
             updateProgress: updateProgress,
