@@ -20,7 +20,7 @@ export default function NavigationBar(props) {
       const newItem = {
         id: Date.now(),
         // href: `${itemId}`,
-        parentId: null,
+        // parentId: undefined,
         itemType: props.listType,
         title: value,
         // progress_percentage: ,

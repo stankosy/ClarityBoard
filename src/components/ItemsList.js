@@ -11,6 +11,24 @@ export default function ItemsList(props) {
   const inputDefaultText = "+ ADD NEW";
   const [itemText, setItemText] = useState(inputDefaultText);
 
+  const getItemCard = (listItem) => {
+    if (listItem.itemType === "objective") {
+      return (
+        <Link to="/objective">
+          <ItemCard key={listItem.id} listItem={listItem} />
+        </Link>
+      );
+    } else if (listItem.itemType === "section") {
+      return (
+        <Link to="/dashboard">
+          <ItemCard key={listItem.id} listItem={listItem} />
+        </Link>
+      );
+    } else {
+      return <ItemCard key={listItem.id} listItem={listItem} />;
+    }
+  };
+
   // Set focus on recently added list
   useEffect(() => {
     // if newItem's type is matching this list's type, set the focus to the input field
@@ -44,17 +62,7 @@ export default function ItemsList(props) {
         <h3 className="capitalize font-bold text-lg leading-6 font-medium text-gray-900">{props.listType + "s"}</h3>
       </Card>
 
-      <div className="text-sm text-gray-600">
-        {props.itemsList.map((listItem) =>
-          listItem.itemType === "objective" ? (
-            <Link to="/objective">
-              <ItemCard key={listItem.id} listItem={listItem} />
-            </Link>
-          ) : (
-            <ItemCard key={listItem.id} listItem={listItem} />
-          )
-        )}
-      </div>
+      <div className="text-sm text-gray-600">{props.itemsList.map((listItem) => getItemCard(listItem))}</div>
 
       <div>
         <EdiText

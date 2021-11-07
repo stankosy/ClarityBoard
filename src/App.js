@@ -79,13 +79,16 @@ export default function App() {
   };
 
   const updateProgress = (item) => {
-    while (item.parentId !== undefined) {
+    while (item.parentId !== undefined && item.parentId !== null) {
       // console.log("__________");
       // console.log("item", item);
       // console.log("itemsList", itemsList);
 
       // get the children of the item's parent
       let childrenItems = filterListItems(itemsList, "parentId", item.parentId);
+      if (!childrenItems) {
+        break;
+      }
       // console.log("childrenItems", childrenItems);
 
       // calculate the avr progress
@@ -120,7 +123,7 @@ export default function App() {
         updateSelectedRelationship(selectedObjective, listItem.id, localStorageSelectedItems);
         break;
       case "solution":
-        setSelectedSection(listItem.id);
+        setSelectedSolution(listItem.id);
         updateSelectedRelationship(selectedCondition, listItem.id, localStorageSelectedItems);
         break;
     }
