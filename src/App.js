@@ -20,7 +20,7 @@ export default function App() {
   let localStorageSelectedItems = getLocalStorageDict("selectedItems");
 
   const [itemsList, setItemsList] = useState(localStorageItemsList);
-  const [selectedSection, setSelectedSection] = useState(null);
+  const [selectedSection, setSelectedSection] = useState(localStorageSelectedItems["none"]);
   const [selectedObjective, setSelectedObjective] = useState(null);
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
@@ -75,9 +75,9 @@ export default function App() {
         let itemIndex = oldItemsList.findIndex((obj) => obj.id == itemToDelete.id);
         oldItemsList.splice(itemIndex, 1);
 
-        // removing selection relationships 
-        console.log("Deleting relationship", itemToDelete)
-        deleteSelectedRelationship(itemToDelete.id, localStorageSelectedItems)
+        // removing selection relationships
+        console.log("Deleting relationship", itemToDelete);
+        deleteSelectedRelationship(itemToDelete.id, localStorageSelectedItems);
       }
       saveLocalStorageList("items", oldItemsList);
       return [...oldItemsList];
@@ -85,7 +85,7 @@ export default function App() {
   };
 
   const updateProgress = (item) => {
-    while (item.parentId !== undefined && item.parentId !== null) {
+    while (item.parentId !== undefined && item.parentId !== null && item.parentId !== "none") {
       // console.log("__________");
       // console.log("item", item);
       // console.log("itemsList", itemsList);
@@ -118,7 +118,7 @@ export default function App() {
     switch (listItem.itemType) {
       case "section":
         setSelectedSection(listItem.id);
-        updateSelectedRelationship(null, listItem.id, localStorageSelectedItems);
+        updateSelectedRelationship("none", listItem.id, localStorageSelectedItems);
         break;
       case "objective":
         setSelectedObjective(listItem.id);
@@ -144,7 +144,7 @@ export default function App() {
       case "condition":
         return listItem.id === selectedCondition;
       case "solution":
-        return listItem.id === selectedSection;
+        return listItem.id === selectedSolution;
     }
   };
 
@@ -169,7 +169,7 @@ export default function App() {
         >
           <NavigationBar
             listType="section"
-            parentId={null}
+            parentId="none"
             itemsList={filterListItems(itemsList, "listType", "section")}
           />
           <Route path="/dashboard">

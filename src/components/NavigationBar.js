@@ -10,26 +10,6 @@ function classNames(...classes) {
 }
 
 export default function NavigationBar(props) {
-  const listsContext = useContext(ListsContext);
-
-  const [itemText, setItemText] = useState("");
-
-  const updateMenuInput = ({ name, value, previousValue }) => {
-    // Create new item
-    if (previousValue === "") {
-      const newItem = {
-        id: Date.now(),
-        // href: `${itemId}`,
-        // parentId: undefined,
-        itemType: props.listType,
-        title: value,
-        // progress_percentage: ,
-      };
-      listsContext.addNewListItem(newItem);
-      listsContext.setSelectedItem(newItem);
-      setItemText("");
-    }
-  };
 
   return (
     <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
@@ -44,39 +24,9 @@ export default function NavigationBar(props) {
 
             <ItemsList
                 listType={props.listType}
-                parentId={null}
+                parentId={props.parentId}
                 itemsList={props.itemsList}
               />
-
-
-            {/* {props.itemsList.map((item) => (
-              <div
-                key={item.id}
-                // to={item.href}
-                className={classNames(
-                  true ? "bg-gray-100 text-gray-900" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                  "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                )}
-              >
-                {item.title}
-              </div>
-            ))}
-            <div style={{ whiteSpace: "nowrap" }}>
-              <EditText
-                name="new-space"
-                type="text"
-                // style={{ width: "200px" }}
-                placeholder="+ ADD NEW HEADSPACE"
-                inline
-                className={classNames(
-                  true ? "bg-gray-100 text-gray-500" : "text-gray-300 hover:bg-gray-50 hover:text-gray-900",
-                  "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                )}
-                value={itemText}
-                onChange={setItemText}
-                onSave={updateMenuInput}
-              />
-            </div> */}
           </nav>
         </div>
       </div>
