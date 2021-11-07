@@ -10,6 +10,7 @@ import {
   saveLocalStorageList,
   updateSelectedRelationship,
   filterListItems,
+  deleteSelectedRelationship,
 } from "./utils/helper-functions";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import ObjectivesList from "./pages/ObjectivesList";
@@ -70,8 +71,13 @@ export default function App() {
       }
       // Removing all the items from the list
       for (var itemToDelete of itemsToDelete) {
+        // removing item from items list
         let itemIndex = oldItemsList.findIndex((obj) => obj.id == itemToDelete.id);
         oldItemsList.splice(itemIndex, 1);
+
+        // removing selection relationships 
+        console.log("Deleting relationship", itemToDelete)
+        deleteSelectedRelationship(itemToDelete.id, localStorageSelectedItems)
       }
       saveLocalStorageList("items", oldItemsList);
       return [...oldItemsList];

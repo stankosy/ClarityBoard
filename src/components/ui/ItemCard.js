@@ -53,24 +53,35 @@ export default function ItemCard(props) {
         )}
 
         {/* Card Content */}
-        <EdiText
-          type="text"
-          value={props.listItem.title}
-          editing={inputIsEditing}
-          submitOnUnfocus={true}
-          saveButtonClassName="invisible"
-          cancelButtonClassName="invisible"
-          editButtonClassName="invisible"
-          cancelOnEscape={true}
-          submitOnEnter={true}
-          onSave={updateCardTitle}
-          containerProps={{
-            style: { width: "100%" },
-          }}
-        />
+        <div
+          // onClick={() => {
+          //   if (props.listItem.itemType != "task") {
+          //     listsContext.setSelectedItem(props.listItem);
+          //   }
+          // }}
+        >
+          <EdiText
+            type="text"
+            value={props.listItem.title}
+            editing={inputIsEditing}
+            submitOnUnfocus={true}
+            saveButtonClassName="invisible"
+            cancelButtonClassName="invisible"
+            editButtonClassName="invisible"
+            cancelOnEscape={true}
+            submitOnEnter={true}
+            onSave={updateCardTitle}
+            containerProps={{
+              style: { width: "100%" },
+            }}
+          />
+        </div>
 
         {/* Card Options */}
+        <div className="z-10">
+
         <CardOption listItem={props.listItem} editCardTitle={editCardTitle} />
+        </div>
       </div>
 
       {/* Progress Bar */}
