@@ -1,5 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
+import ListsContext from "../../context/lists-context";
 import { Menu, Transition } from "@headlessui/react";
 import { DotsVerticalIcon, PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 
@@ -8,6 +9,8 @@ function classNames(...classes) {
 }
 
 export default function CardOption(props) {
+  const listsContext = useContext(ListsContext);
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -45,6 +48,7 @@ export default function CardOption(props) {
             <Menu.Item>
               {({ active }) => (
                 <div
+                onClick={() => {listsContext.deleteItemAndChildren(props.listItem)}}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "group flex items-center px-4 py-2 text-sm cursor-pointer"

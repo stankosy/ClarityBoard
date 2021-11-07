@@ -22,7 +22,7 @@ export default function ItemCard(props) {
     listsContext.updateProgress(listItem);
   };
 
-  const saveInput = (newValue) => {
+  const updateCardTitle = (newValue) => {
     listsContext.updateItem(props.listItem.id, "title", newValue)
     setInputIsEditing((v) => !v)    // need to manually disable editing since enter does not work 
   }
@@ -74,7 +74,7 @@ export default function ItemCard(props) {
           editButtonClassName="invisible"
           cancelOnEscape={true}
           submitOnEnter={true}
-          onSave={saveInput}
+          onSave={updateCardTitle}
           containerProps={{
             style: { width: "100%" },
           }}
