@@ -47,8 +47,34 @@ export default function App() {
       // oldItemsList[itemIndex][param] = value;
       return [...oldItemsList];
     });
-    // saveLocalStorageList("items", itemsList);
+    saveLocalStorageList("items", itemsList);
     // console.log("itemsList", itemsList);
+  };
+
+  const deleteItemAndChildren = (item) => {
+
+    setItemsList((oldItemsList) => {
+      let itemsToCheck = [item]
+      let itemsToDelete = [item]
+
+      while (itemsToCheck.length !== 0) {
+        // get the children of that item 
+        let childrenItems = filterListItems(oldItemsList, "parentId", itemsToCheck[0].id);
+
+        itemsToCheck.push(...childrenItems)
+        itemsToDelete.push(...childrenItems)
+
+        // remove the checked item from the list 
+        itemsToCheck.shift()
+      }
+      // Removing all the items from the list
+      for (var itemToDelete of itemsToDelete) {
+        let itemIndex = oldItemsList.findIndex((obj) => obj.id == itemToDelete.id);
+        oldItemsList.splice(itemIndex, 1)
+      }
+      saveLocalStorageList("items", oldItemsList);
+      return [...oldItemsList];
+    });
   };
 
   const updateProgress = (item) => {
@@ -103,6 +129,7 @@ export default function App() {
             newItem: newItem,
             addNewListItem: addNewListItem,
             updateItem: updateItem,
+            deleteItemAndChildren: deleteItemAndChildren,
             updateProgress: updateProgress,
             selectCondition: selectCondition,
             selectSolution: selectSolution,

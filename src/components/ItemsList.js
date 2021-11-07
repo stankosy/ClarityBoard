@@ -14,8 +14,7 @@ export default function ItemsList(props) {
   useEffect(() => {
     // if newItem's type is matching this list's type, set the focus to the input field
     if (listsContext.newItem !== null && listsContext.newItem.itemType === props.listType) {
-      const list_dom = document.getElementById(`${props.listType}_list`);
-      list_dom.querySelector('[editext="view"]').click(); 
+      document.getElementById(`${props.listType}_inputField`).click();
     }
   }, [listsContext.newItem]);
 
@@ -52,19 +51,15 @@ export default function ItemsList(props) {
 
       <div className="text-sm text-gray-600">
         {props.itemsList.map((listItem) => (
-          <ItemCard key={listItem.id} listItem={listItem}>
-            <div>{listItem.title}</div>
-          </ItemCard>
+          <ItemCard key={listItem.id} listItem={listItem} />
         ))}
       </div>
 
       <div>
         <EdiText
-          id={`${props.listType}_inputField`}
           type="text"
           value={itemText}
           editOnViewClick={true}
-          // startEditingOnFocus={true}
           submitOnUnfocus={true}
           saveButtonClassName="invisible"
           cancelButtonClassName="invisible"
@@ -78,7 +73,8 @@ export default function ItemsList(props) {
           cancelOnEscape={true}
           submitOnEnter={true}
           onSave={saveInput}
-          inputProps={{
+          viewProps={{
+            id: `${props.listType}_inputField`,
             style: { width: "100%" },
           }}
 

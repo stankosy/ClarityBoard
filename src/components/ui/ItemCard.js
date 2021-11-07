@@ -1,9 +1,12 @@
 import ItemProgressBar from "./ItemProgressBar";
 import ListsContext from "../../context/lists-context";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import CardOption from "./CardOption";
+import EdiText from "react-editext";
 
 export default function ItemCard(props) {
   const listsContext = useContext(ListsContext);
+  const [inputIsEditing, setInputIsEditing] = useState(false)
 
   const setSelectedItem = (listItem) => {
     if (listItem.itemType == "condition") {
@@ -18,6 +21,15 @@ export default function ItemCard(props) {
     listsContext.updateItem(listItem.id, "progress_percentage", checkboxState);
     listsContext.updateProgress(listItem);
   };
+
+  const updateCardTitle = (newValue) => {
+    listsContext.updateItem(props.listItem.id, "title", newValue)
+    setInputIsEditing((v) => !v)    // need to manually disable editing since enter does not work 
+  }
+
+  const editCardTitle = () => {
+    setInputIsEditing((v) => !v)
+  }
 
   const displayProgressBar = props.listItem.progress_percentage !== undefined && props.listItem.itemType !== "task";
   const includeCheckbox = props.listItem.itemType === "task";
@@ -36,7 +48,7 @@ export default function ItemCard(props) {
         }
       }}
     >
-      <div className="px-4 py-2 relative flex items-start">
+      <div className="px-4 py-2 relative flex justify-between">
         {/* Checkbox */}
         {includeCheckbox && (
           <div className="flex items-center h-6 mr-4">
@@ -52,7 +64,25 @@ export default function ItemCard(props) {
         )}
 
         {/* Card Content */}
-        {props.children}
+        <EdiText
+          type="text"
+          value={props.listItem.title}
+          editing={inputIsEditing}
+          submitOnUnfocus={true}
+          saveButtonClassName="invisible"
+          cancelButtonClassName="invisible"
+          editButtonClassName="invisible"
+          cancelOnEscape={true}
+          submitOnEnter={true}
+          onSave={updateCardTitle}
+          containerProps={{
+            style: { width: "100%" },
+          }}
+        />
+        
+
+        {/* Card Options */}
+        <CardOption listItem={props.listItem} editCardTitle={editCardTitle} />
       </div>
 
       {/* Progress Bar */}
