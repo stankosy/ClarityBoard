@@ -1,18 +1,10 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from 'react'
-import { Menu, Transition } from '@headlessui/react'
-import {
-  DotsVerticalIcon,
-  PencilAltIcon,
-  TrashIcon,
-} from '@heroicons/react/solid'
-
-const editItem = () => {
-    console.log('EDITING ITEM')
-}
+import { Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { DotsVerticalIcon, PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function CardOption(props) {
@@ -39,10 +31,10 @@ export default function CardOption(props) {
             <Menu.Item>
               {({ active }) => (
                 <div
-                onClick={editItem}
+                  onClick={props.editCardTitle}
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'group flex items-center px-4 py-2 text-sm cursor-pointer'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "group flex items-center px-4 py-2 text-sm cursor-pointer"
                   )}
                 >
                   <PencilAltIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
@@ -54,8 +46,8 @@ export default function CardOption(props) {
               {({ active }) => (
                 <div
                   className={classNames(
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                    'group flex items-center px-4 py-2 text-sm cursor-pointer'
+                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                    "group flex items-center px-4 py-2 text-sm cursor-pointer"
                   )}
                 >
                   <TrashIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
@@ -67,5 +59,5 @@ export default function CardOption(props) {
         </Menu.Items>
       </Transition>
     </Menu>
-  )
+  );
 }

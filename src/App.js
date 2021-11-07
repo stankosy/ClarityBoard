@@ -47,7 +47,7 @@ export default function App() {
       // oldItemsList[itemIndex][param] = value;
       return [...oldItemsList];
     });
-    // saveLocalStorageList("items", itemsList);
+    saveLocalStorageList("items", itemsList);
     // console.log("itemsList", itemsList);
   };
 

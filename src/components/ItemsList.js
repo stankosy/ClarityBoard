@@ -52,9 +52,7 @@ export default function ItemsList(props) {
 
       <div className="text-sm text-gray-600">
         {props.itemsList.map((listItem) => (
-          <ItemCard key={listItem.id} listItem={listItem}>
-            <div>{listItem.title}</div>
-          </ItemCard>
+          <ItemCard key={listItem.id} listItem={listItem} />
         ))}
       </div>
 
