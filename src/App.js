@@ -19,6 +19,8 @@ export default function App() {
   let localStorageSelectedItems = getLocalStorageDict("selectedItems");
 
   const [itemsList, setItemsList] = useState(localStorageItemsList);
+  const [selectedSection, setSelectedSection] = useState(null);
+  const [selectedObjective, setSelectedObjective] = useState(null);
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [selectedSolution, setSelectedSolution] = useState(null);
   const [newItem, setNewItem] = useState(null);
@@ -52,25 +54,24 @@ export default function App() {
   };
 
   const deleteItemAndChildren = (item) => {
-
     setItemsList((oldItemsList) => {
-      let itemsToCheck = [item]
-      let itemsToDelete = [item]
+      let itemsToCheck = [item];
+      let itemsToDelete = [item];
 
       while (itemsToCheck.length !== 0) {
-        // get the children of that item 
+        // get the children of that item
         let childrenItems = filterListItems(oldItemsList, "parentId", itemsToCheck[0].id);
 
-        itemsToCheck.push(...childrenItems)
-        itemsToDelete.push(...childrenItems)
+        itemsToCheck.push(...childrenItems);
+        itemsToDelete.push(...childrenItems);
 
-        // remove the checked item from the list 
-        itemsToCheck.shift()
+        // remove the checked item from the list
+        itemsToCheck.shift();
       }
       // Removing all the items from the list
       for (var itemToDelete of itemsToDelete) {
         let itemIndex = oldItemsList.findIndex((obj) => obj.id == itemToDelete.id);
-        oldItemsList.splice(itemIndex, 1)
+        oldItemsList.splice(itemIndex, 1);
       }
       saveLocalStorageList("items", oldItemsList);
       return [...oldItemsList];
@@ -104,23 +105,45 @@ export default function App() {
     }
   };
 
-  // SELECTION FUNCTIONS
-  const selectCondition = (id) => {
-    setSelectedCondition(id);
-    updateSelectedRelationship("index", id, localStorageSelectedItems);
-    setSelectedSolution(localStorageSelectedItems[id]);
+  const setSelectedItem = (listItem) => {
+    switch (listItem.itemType) {
+      case "section":
+        setSelectedSection(listItem.id);
+        updateSelectedRelationship(null, listItem.id, localStorageSelectedItems);
+        break;
+      case "objective":
+        setSelectedObjective(listItem.id);
+        updateSelectedRelationship(selectedSection, listItem.id, localStorageSelectedItems);
+        break;
+      case "condition":
+        setSelectedCondition(listItem.id);
+        updateSelectedRelationship(selectedObjective, listItem.id, localStorageSelectedItems);
+        break;
+      case "solution":
+        setSelectedSection(listItem.id);
+        updateSelectedRelationship(selectedCondition, listItem.id, localStorageSelectedItems);
+        break;
+    }
   };
 
-  const selectSolution = (id) => {
-    setSelectedSolution(id);
-    updateSelectedRelationship(selectedCondition, id, localStorageSelectedItems);
+  const itemIsSelected = (listItem) => {
+    switch (listItem.itemType) {
+      case "section":
+        return listItem.id === selectedSection;
+      case "objective":
+        return listItem.id === selectedObjective;
+      case "condition":
+        return listItem.id === selectedCondition;
+      case "solution":
+        return listItem.id === selectedSection;
+    }
   };
 
   return (
     <Router>
       <Switch>
         <Route path="/" exact>
-          <Redirect to="/objective" />
+          <Redirect to="/dashboard" />
           <LandingPageView title="Welcome page!" />
         </Route>
         <ListsContext.Provider
@@ -131,22 +154,28 @@ export default function App() {
             updateItem: updateItem,
             deleteItemAndChildren: deleteItemAndChildren,
             updateProgress: updateProgress,
-            selectCondition: selectCondition,
-            selectSolution: selectSolution,
-            selectedCondition: selectedCondition,
-            selectedSolution: selectedSolution,
+            setSelectedItem: setSelectedItem,
+            itemIsSelected: itemIsSelected,
           }}
         >
-          <NavigationBar listType="space" itemsList={filterListItems(itemsList, "listType", "space")} />
+          <NavigationBar
+            listType="section"
+            parentId={null}
+            itemsList={filterListItems(itemsList, "listType", "section")}
+          />
           <Route path="/dashboard">
             <ObjectivesList title="Upcoming Objectives">
-              <ItemsList listType="objective" itemsList={filterListItems(itemsList, "listType", "objective")} />
+              <ItemsList
+                listType="objective"
+                parentId={selectedSection}
+                itemsList={filterListItems(itemsList, "parentId", selectedSection)}
+              />
             </ObjectivesList>
           </Route>
           <Route path="/objective">
             {/* <NavigationBar /> */}
             <ObjectiveView title="Hire a new Frontend Developer">
-              <ItemsList listType="condition" itemsList={filterListItems(itemsList, "listType", "condition")} />
+              <ItemsList listType="condition" itemsList={filterListItems(itemsList, "parentId", selectedObjective)} />
               <ItemsList
                 listType="solution"
                 parentId={selectedCondition}

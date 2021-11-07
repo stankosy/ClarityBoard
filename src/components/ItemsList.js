@@ -31,13 +31,7 @@ export default function ItemsList(props) {
         newListItem["progress_percentage"] = 0;
       }
       listsContext.addNewListItem(newListItem);
-
-      // Select the created list item
-      if (newListItem.itemType == "condition") {
-        listsContext.selectCondition(newListItem.id);
-      } else if (newListItem.itemType == "solution") {
-        listsContext.selectSolution(newListItem.id);
-      }
+      listsContext.setSelectedItem(newListItem)
     }
     // setting back to default text
     setItemText(inputDefaultText);
@@ -51,7 +45,7 @@ export default function ItemsList(props) {
 
       <div className="text-sm text-gray-600">
         {props.itemsList.map((listItem) => (
-          <ItemCard key={listItem.id} listItem={listItem} />
+          <ItemCard key={listItem.id} parentId={props.parentId} listItem={listItem} />
         ))}
       </div>
 

@@ -8,14 +8,6 @@ export default function ItemCard(props) {
   const listsContext = useContext(ListsContext);
   const [inputIsEditing, setInputIsEditing] = useState(false)
 
-  const setSelectedItem = (listItem) => {
-    if (listItem.itemType == "condition") {
-      listsContext.selectCondition(listItem.id);
-    } else if (listItem.itemType == "solution") {
-      listsContext.selectSolution(listItem.id);
-    }
-  };
-
   const updateCheckbox = (listItem) => {
     const checkboxState = listItem.progress_percentage == 1 ? 0 : 1;
     listsContext.updateItem(listItem.id, "progress_percentage", checkboxState);
@@ -37,14 +29,15 @@ export default function ItemCard(props) {
   return (
     <div
       className={`bg-white rounded shadow my-2 hover:bg-purple-50 ${
-        props.listItem.id ==
-        (props.listItem.itemType == "condition" ? listsContext.selectedCondition : listsContext.selectedSolution)
+        // (props.listItem.itemType == "condition" ? listsContext.selectedCondition : listsContext.selectedSolution)
+        // props.listItem.id ==
+        listsContext.itemIsSelected(props.listItem)
           ? "bg-purple-50"
           : ""
       }`}
       onClick={() => {
         if (props.listItem.itemType != "task") {
-          setSelectedItem(props.listItem);
+          listsContext.setSelectedItem(props.listItem);
         }
       }}
     >
