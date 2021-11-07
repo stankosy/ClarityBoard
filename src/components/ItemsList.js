@@ -4,6 +4,7 @@ import { useContext, useState, useEffect } from "react";
 import ListsContext from "../context/lists-context";
 // import { EditText } from "react-edit-text";
 import EdiText from "react-editext";
+import { Link } from "react-router-dom";
 
 export default function ItemsList(props) {
   const listsContext = useContext(ListsContext);
@@ -31,7 +32,7 @@ export default function ItemsList(props) {
         newListItem["progress_percentage"] = 0;
       }
       listsContext.addNewListItem(newListItem);
-      listsContext.setSelectedItem(newListItem)
+      listsContext.setSelectedItem(newListItem);
     }
     // setting back to default text
     setItemText(inputDefaultText);
@@ -44,9 +45,15 @@ export default function ItemsList(props) {
       </Card>
 
       <div className="text-sm text-gray-600">
-        {props.itemsList.map((listItem) => (
-          <ItemCard key={listItem.id} parentId={props.parentId} listItem={listItem} />
-        ))}
+        {props.itemsList.map((listItem) =>
+          listItem.itemType === "objective" ? (
+            <Link to="/objective">
+              <ItemCard key={listItem.id} listItem={listItem} />
+            </Link>
+          ) : (
+            <ItemCard key={listItem.id} listItem={listItem} />
+          )
+        )}
       </div>
 
       <div>
@@ -71,7 +78,6 @@ export default function ItemsList(props) {
             id: `${props.listType}_inputField`,
             style: { width: "100%" },
           }}
-
         />
       </div>
     </div>

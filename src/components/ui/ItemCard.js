@@ -6,7 +6,7 @@ import EdiText from "react-editext";
 
 export default function ItemCard(props) {
   const listsContext = useContext(ListsContext);
-  const [inputIsEditing, setInputIsEditing] = useState(false)
+  const [inputIsEditing, setInputIsEditing] = useState(false);
 
   const updateCheckbox = (listItem) => {
     const checkboxState = listItem.progress_percentage == 1 ? 0 : 1;
@@ -15,13 +15,13 @@ export default function ItemCard(props) {
   };
 
   const updateCardTitle = (newValue) => {
-    listsContext.updateItem(props.listItem.id, "title", newValue)
-    setInputIsEditing((v) => !v)    // need to manually disable editing since enter does not work 
-  }
+    listsContext.updateItem(props.listItem.id, "title", newValue);
+    setInputIsEditing((v) => !v); // need to manually disable editing since enter does not work
+  };
 
   const editCardTitle = () => {
-    setInputIsEditing((v) => !v)
-  }
+    setInputIsEditing((v) => !v);
+  };
 
   const displayProgressBar = props.listItem.progress_percentage !== undefined && props.listItem.itemType !== "task";
   const includeCheckbox = props.listItem.itemType === "task";
@@ -29,11 +29,7 @@ export default function ItemCard(props) {
   return (
     <div
       className={`bg-white rounded shadow my-2 hover:bg-purple-50 ${
-        // (props.listItem.itemType == "condition" ? listsContext.selectedCondition : listsContext.selectedSolution)
-        // props.listItem.id ==
-        listsContext.itemIsSelected(props.listItem)
-          ? "bg-purple-50"
-          : ""
+        listsContext.itemIsSelected(props.listItem) ? "bg-purple-50" : ""
       }`}
       onClick={() => {
         if (props.listItem.itemType != "task") {
@@ -72,7 +68,6 @@ export default function ItemCard(props) {
             style: { width: "100%" },
           }}
         />
-        
 
         {/* Card Options */}
         <CardOption listItem={props.listItem} editCardTitle={editCardTitle} />

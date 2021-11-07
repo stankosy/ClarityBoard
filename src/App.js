@@ -175,7 +175,11 @@ export default function App() {
           <Route path="/objective">
             {/* <NavigationBar /> */}
             <ObjectiveView title="Hire a new Frontend Developer">
-              <ItemsList listType="condition" itemsList={filterListItems(itemsList, "parentId", selectedObjective)} />
+              <ItemsList
+                listType="condition"
+                parentId={selectedObjective}
+                itemsList={filterListItems(itemsList, "parentId", selectedObjective)}
+              />
               <ItemsList
                 listType="solution"
                 parentId={selectedCondition}
