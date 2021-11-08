@@ -169,6 +169,7 @@ export default function App() {
         >
           <NavigationBar
             listType="section"
+            listName="HEADSPACES"
             parentId="none"
             itemsList={filterListItems(itemsList, "listType", "section")}
           />
@@ -176,26 +177,29 @@ export default function App() {
             <ObjectivesList title="Upcoming Objectives">
               <ItemsList
                 listType="objective"
+                listName="I chose to..."
                 parentId={selectedSection}
                 itemsList={filterListItems(itemsList, "parentId", selectedSection)}
               />
             </ObjectivesList>
           </Route>
           <Route path="/objective">
-            {/* <NavigationBar /> */}
-            <ObjectiveView title="Hire a new Frontend Developer">
+            <ObjectiveView title={filterListItems(itemsList, "id", selectedObjective)[0].title}>
               <ItemsList
                 listType="condition"
+                listName="States"
                 parentId={selectedObjective}
                 itemsList={filterListItems(itemsList, "parentId", selectedObjective)}
               />
               <ItemsList
                 listType="solution"
+                listName="Potential Solutions"
                 parentId={selectedCondition}
                 itemsList={filterListItems(itemsList, "parentId", selectedCondition)}
               />
               <ItemsList
                 listType="task"
+                listName="Actionables"
                 parentId={selectedSolution}
                 itemsList={filterListItems(itemsList, "parentId", selectedSolution)}
                 includeCheckbox={true}

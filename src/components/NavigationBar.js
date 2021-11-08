@@ -19,11 +19,10 @@ export default function NavigationBar(props) {
           <div className="flex items-center flex-shrink-0 px-4">
             <h1 className="text-3xl font-bold leading-tight text-gray-900">ClarityBoard</h1>
           </div>
-          <nav className="mt-5 flex-1 px-2 bg-white space-y-1">
-            <h2 className="px-2">HEADSPACES</h2>
-
+          <nav className="mt-5 flex-1 px-2 bg-white">
             <ItemsList
                 listType={props.listType}
+                listName={props.listName}
                 parentId={props.parentId}
                 itemsList={props.itemsList}
               />
