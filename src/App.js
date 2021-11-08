@@ -148,6 +148,15 @@ export default function App() {
     }
   };
 
+  const getObjectiveTitle = () =>{
+    const item = filterListItems(itemsList, "id", selectedObjective)[0]
+    if (item) {
+      return item.title
+    } else {
+      return "Title not found"
+    }
+  }
+
   return (
     <Router>
       <Switch>
@@ -184,7 +193,7 @@ export default function App() {
             </ObjectivesList>
           </Route>
           <Route path="/objective">
-            <ObjectiveView title={filterListItems(itemsList, "id", selectedObjective)[0].title}>
+            <ObjectiveView title={getObjectiveTitle()}>
               <ItemsList
                 listType="condition"
                 listName="States"

@@ -59,7 +59,7 @@ export default function ItemsList(props) {
   return (
     <div id={`${props.listType}_list`} className="py-2">
       <Card>
-        <h3 className="capitalize font-bold text-lg leading-6 font-medium text-gray-900">{props.listName}</h3>
+        <h3 className="font-bold text-lg leading-6 font-medium text-gray-900">{props.listName}</h3>
       </Card>
 
       <div className="text-sm text-gray-600">{props.itemsList.map((listItem) => getItemCard(listItem))}</div>

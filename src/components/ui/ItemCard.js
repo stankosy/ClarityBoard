@@ -28,7 +28,7 @@ export default function ItemCard(props) {
 
   return (
     <div
-      className={`bg-white rounded shadow my-2 hover:bg-purple-50 ${
+      className={`bg-white rounded shadow my-2 hover:bg-purple-50 cursor-pointer ${
         listsContext.itemIsSelected(props.listItem) ? "bg-purple-50" : ""
       }`}
       onClick={() => {
