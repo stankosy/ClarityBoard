@@ -196,19 +196,19 @@ export default function App() {
             <ObjectiveView title={getObjectiveTitle()}>
               <ItemsList
                 listType="condition"
-                listName="States"
+                listName="States to be reached"
                 parentId={selectedObjective}
                 itemsList={filterListItems(itemsList, "parentId", selectedObjective)}
               />
               <ItemsList
                 listType="solution"
-                listName="Potential Solutions"
+                listName="Potential solutions"
                 parentId={selectedCondition}
                 itemsList={filterListItems(itemsList, "parentId", selectedCondition)}
               />
               <ItemsList
                 listType="task"
-                listName="Actionables"
+                listName="Actions to take"
                 parentId={selectedSolution}
                 itemsList={filterListItems(itemsList, "parentId", selectedSolution)}
                 includeCheckbox={true}
