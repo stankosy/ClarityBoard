@@ -123,10 +123,17 @@ export default function App() {
       case "objective":
         setSelectedObjective(listItem.id);
         updateSelectedRelationship(selectedSection, listItem.id, localStorageSelectedItems);
+
+        // for the auto selection of the solution and tasks when selecting the objective
+        const selectedConditionTemp = localStorageSelectedItems[listItem.id]
+        const selectedSolutionTemp = localStorageSelectedItems[selectedConditionTemp]
+        setSelectedCondition(selectedConditionTemp)
+        setSelectedSolution(selectedSolutionTemp)
         break;
       case "condition":
         setSelectedCondition(listItem.id);
         updateSelectedRelationship(selectedObjective, listItem.id, localStorageSelectedItems);
+        setSelectedSolution(localStorageSelectedItems[listItem.id])  // for the autoselect of the solution when selecting the condition
         break;
       case "solution":
         setSelectedSolution(listItem.id);
