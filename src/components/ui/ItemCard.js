@@ -28,7 +28,7 @@ export default function ItemCard(props) {
 
   return (
     <div
-      className={`bg-white rounded shadow my-2 hover:bg-purple-50 cursor-pointer ${
+      className={`bg-white rounded shadow my-2 hover:bg-purple-50 cursor-pointer group ${
         listsContext.itemIsSelected(props.listItem) ? "bg-purple-50" : ""
       }`}
       onClick={() => {
@@ -54,6 +54,7 @@ export default function ItemCard(props) {
 
         {/* Card Content */}
         <div
+          className="py-0.5"
           // onClick={() => {
           //   if (props.listItem.itemType != "task") {
           //     listsContext.setSelectedItem(props.listItem);
@@ -78,7 +79,7 @@ export default function ItemCard(props) {
         </div>
 
         {/* Card Options */}
-        <div className="z-10">
+        <div className="z-10 hidden group-hover:block">
 
         <CardOption listItem={props.listItem} editCardTitle={editCardTitle} />
         </div>
