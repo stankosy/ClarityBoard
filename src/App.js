@@ -59,10 +59,12 @@ export default function App() {
       let itemsToCheck = [item];
       let itemsToDelete = [item];
 
+      // COLLEC ALL THE CHILDER OF THE ITEM TO BE DELETED AND SAVE TO LIST
       while (itemsToCheck.length !== 0) {
         // get the children of that item
         let childrenItems = filterListItems(oldItemsList, "parentId", itemsToCheck[0].id);
 
+        // extend lists with received childern items
         itemsToCheck.push(...childrenItems);
         itemsToDelete.push(...childrenItems);
 

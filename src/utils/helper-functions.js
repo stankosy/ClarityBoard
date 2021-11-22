@@ -19,9 +19,10 @@ const deleteObjectItemByValue = (Obj, val) => {
   for (var key in Obj) {
     if (Obj[`${key}`] == val) {
       delete Obj[`${key}`];
-      return Obj;
+      break;
     }
   }
+  return Obj;
 };
 
 export const deleteSelectedRelationship = (itemId, selectedItemsDict) => {
