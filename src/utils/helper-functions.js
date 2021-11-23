@@ -29,12 +29,15 @@ export const deleteSelectedRelationship = (itemId, selectedItemsDict) => {
   localStorage.setItem("selectedItems", JSON.stringify(newSelectedItemsDict));
 };
 
-export const filterListItems = (itemsList, filterType, filterValue) => {
+export const filterListItems = (itemsList, filterType, filterValue, itemType=null) => {
   if (filterValue == undefined) {
     return [];
   }
   switch (filterType) {
     case "parentId":
+      if (itemType !== null){
+        return itemsList.filter((i) => [filterValue].includes(i.parentId) && [itemType].includes(i.itemType));
+      }
       return itemsList.filter((i) => [filterValue].includes(i.parentId));
     case "listType":
       return itemsList.filter((i) => [filterValue].includes(i.itemType));

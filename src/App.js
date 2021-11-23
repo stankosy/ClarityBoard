@@ -217,7 +217,14 @@ export default function App() {
                 listType="task"
                 listName="Actions to take"
                 parentId={selectedSolution}
-                itemsList={filterListItems(itemsList, "parentId", selectedSolution)}
+                itemsList={filterListItems(itemsList, "parentId", selectedSolution, "task")}
+                includeCheckbox={true}
+              />
+              <ItemsList
+                listType="risk"
+                listName="Potential risks"
+                parentId={selectedSolution}
+                itemsList={filterListItems(itemsList, "parentId", selectedSolution, "risk")}
                 includeCheckbox={true}
               />
             </ObjectiveView>
