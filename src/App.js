@@ -192,10 +192,10 @@ export default function App() {
             itemsList={filterListItems(itemsList, "listType", "section")}
           />
           <Route path="/dashboard">
-            <ObjectivesList title="Upcoming Objectives">
+            <ObjectivesList >
               <ItemsList
                 listType="objective"
-                listName="I chose to..."
+                listName="Objectives"
                 parentId={selectedSection}
                 itemsList={filterListItems(itemsList, "parentId", selectedSection)}
               />

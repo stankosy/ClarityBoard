@@ -64,30 +64,38 @@ export default function ItemsList(props) {
 
       <div className="text-sm text-gray-600">{props.itemsList.map((listItem) => getItemCard(listItem))}</div>
 
-      <div>
-        <EdiText
-          type="text"
-          value={itemText}
-          editOnViewClick={true}
-          submitOnUnfocus={true}
-          saveButtonClassName="invisible"
-          cancelButtonClassName="invisible"
-          editButtonClassName="invisible"
-          onEditingStart={() => {
-            setItemText("");
-          }}
-          onCancel={() => {
-            setItemText(inputDefaultText);
-          }}
-          cancelOnEscape={true}
-          submitOnEnter={true}
-          onSave={saveInput}
-          viewProps={{
-            id: `${props.listType}_inputField`,
-            style: { width: "100%" },
-          }}
-        />
+      <div className="flex flex-row">
+        <div>
+          {props.listType === "objective" && itemText !== inputDefaultText ? "  I chose to... ": null}
+
+        </div>
+        <div>
+
+          <EdiText
+            type="text"
+            value={itemText}
+            editOnViewClick={true}
+            submitOnUnfocus={true}
+            saveButtonClassName="invisible"
+            cancelButtonClassName="invisible"
+            editButtonClassName="invisible"
+            onEditingStart={() => {
+              setItemText("");
+            }}
+            onCancel={() => {
+              setItemText(inputDefaultText);
+            }}
+            cancelOnEscape={true}
+            submitOnEnter={true}
+            onSave={saveInput}
+            viewProps={{
+              id: `${props.listType}_inputField`,
+              // style: { width: "100%" },
+            }}
+          />
+        </div>
       </div>
+
     </div>
   );
 }
