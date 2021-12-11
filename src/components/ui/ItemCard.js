@@ -26,11 +26,17 @@ export default function ItemCard(props) {
   const displayProgressBar = props.listItem.progress_percentage !== undefined && props.listItem.itemType !== "task";
   const includeCheckbox = props.listItem.itemType === "task";
 
+  const cardColor = () => {
+    if (listsContext.itemIsSelected(props.listItem)) {
+      return "bg-purple-50"
+    } else if (props.listItem.progress_percentage == 1) {
+      return "bg-green-50"
+    }
+  }
+
   return (
     <div
-      className={`bg-white rounded shadow my-2 hover:bg-purple-50 cursor-pointer group ${
-        listsContext.itemIsSelected(props.listItem) ? "bg-purple-50" : ""
-      }`}
+      className={`bg-white rounded shadow my-2 hover:bg-purple-50 cursor-pointer group ${cardColor()}`}
       onClick={() => {
         if (props.listItem.itemType != "task") {
           listsContext.setSelectedItem(props.listItem);
