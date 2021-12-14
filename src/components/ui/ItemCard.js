@@ -66,12 +66,13 @@ export default function ItemCard(props) {
           //     listsContext.setSelectedItem(props.listItem);
           //   }
           // }}
+          onDoubleClick={()=>setInputIsEditing(!inputIsEditing)}
         >
           <EdiText
             type="text"
             value={props.listItem.title}
             editing={inputIsEditing}
-            submitOnUnfocus={true}
+            // submitOnUnfocus={true}
             saveButtonClassName="invisible"
             cancelButtonClassName="invisible"
             editButtonClassName="invisible"
